@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Scary Rat Alphabets Behave Badly, Like Elonmusk (ScRABBLE)</title>
+    <script type="text/javascript" src="index.js">
+    </script>
+    <link rel="stylesheet" type="text/css" href="index.css">
+  </head>
+
+  <body>
+    <h1>Scrabblebag.org</h1>
+
+    <button type="button" class="collapsible-confirm">Bag</button>
+    <div class="content">
+      <span id="bag"></span>
+    </div>
+
+    <button type="button" class="collapsible">Player 1</button>
+    <div class="content">
+      <div class="hand">
+        <span id="Player_1-hand">Hand: </span>
+      </div>
+      <br>
+      <input type="text" id="letter-P1" placeholder="Enter a letter">
+      <input type="button" value="Play" onclick="
+        var player = 'Player 1'
+        var letter = document.getElementById('letter-P1').value
+        sendPlay(letter, player)
+        document.getElementById('letter-P1').value=''
+      ">
+      <input type="button" value="Draw" onclick="
+        var player = 'Player 1'
+        sendDraw(player)
+      ">
+    </div>
+
+    <button type="button" class="collapsible">Player 2</button>
+    <div class="content">
+      <div class="hand">
+        <span id="Player_2-hand">Hand: </span>
+      </div>
+      <br>
+      <input type="text" id="letter-P2" placeholder="Enter a letter">
+      <input type="button" value="Play" onclick="
+        var player = 'Player 2'
+        var letter = document.getElementById('letter-P2').value
+        sendPlay(letter, player)
+        document.getElementById('letter-P2').value=''
+      ">
+      <input type="button" value="Draw" onclick="
+        var player = 'Player 2'
+        sendDraw(player)
+      ">
+    </div>
+    <div>
+      <br>
+      <button onclick="sendReset()">Reset game!!</button>
+    </div>
+  </body>
+
+  <script>
+    // from https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_collapsible
+    var coll = document.getElementsByClassName("collapsible")
+    var i
+
+    // add a click listener to each collapsible item
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+        this.classList.toggle("active")
+        var content = this.nextElementSibling;
+        // toggle visibility of content
+        if (content.style.display === "block") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "block";
+        }
+      })
+    }
+    var collConf = document.getElementsByClassName("collapsible-confirm")
+    for (i = 0; i < collConf.length; i++) {
+      collConf[i].addEventListener("click", function() {
+        var content = this.nextElementSibling;
+        // show content if confirmed, or hide
+        if (content.style.display === "block") {
+          content.style.display = "none" // hide all the time
+          this.classList.toggle("active")
+        } else {
+          if (confirm("Do you really want to view the bag? It could spoil your game!")) {
+            content.style.display = "block" // only show if confirmed
+            this.classList.toggle("active")
+          }
+        }
+      })
+    }
+
+  </script>
+
+</html>
