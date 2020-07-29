@@ -49,5 +49,5 @@ function arrayFromLettersDict(lettersDict) {
 }
 
 module.exports = {
-    scrabbleLetters: scrabbleLetters
-};
+  scrabbleLetters: scrabbleLetters
+}
