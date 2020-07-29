@@ -2,6 +2,8 @@
 
 const bagfile = require('./bag')
 const scrabbleLetters = bagfile.scrabbleLetters
+const wordsfile = require('./words9')
+const nineLetterWords = wordsfile.nineLetterWords
 
 const WebSocket = require('ws')
 
@@ -12,8 +14,8 @@ const HAND_SIZE = 7
 // hash of gameId : connection-list pairs
 var connections = {}
 
-// current game state
-var gameState
+// hash of gameId : game pairs
+var gameStates = {}
 
 wss.on('connection', ws => {
   console.log('Incoming connection!')
@@ -26,8 +28,18 @@ wss.on('connection', ws => {
     var updatedGame
     switch(msg.type) {
       case 'join':
-        // add this connection to the list of people to update for the game it connected to
+        // Incoming join. Enroll the user to recieve updates about the game.
+
+        // because of the newGameRequest/Response system, this will only be sent by the system for a game that already exists.
+        // Unless someone just typed in a valid 9 letter word in the URL. So we have to check that the game exists and if it doesn't, do nothing.
+
         gameId = msg.id
+
+        if (!(gameId in gameStates)) {
+          break;
+        }
+
+        // add this connection to the list of people to update for the game it connected to
         // if the game has no connection list, make it
         if (!connections[gameId]) {
           connections[gameId] = []
@@ -37,14 +49,7 @@ wss.on('connection', ws => {
         console.log(`Someone joined game ${gameId}!`)
         console.log('Connections: ', connections)
 
-        // if this is the first connection ever, create the new game
-        // if (Object.keys(connections).length === 1) {
-        if (typeof getGame() === "undefined") {
-          sendUpdateToAll(newGame()) // create new game, send it out,
-          setGame(newGame()) // and save it
-        } else {
-          sendUpdateToAll(getGame()) // get game and send it out
-        }
+        sendUpdateToAll(getGame(gameId)) // send out an update to everyone in this game
         break;
       case 'play':
         letter = msg.letter // get the letter that was played
@@ -55,7 +60,7 @@ wss.on('connection', ws => {
         game = getGame() // grab the game
         updatedGame = transformGame(msg, game) // apply the move to it
         sendUpdateToAll(updatedGame) // send out update with transformed game
-        setGame(updatedGame) // save transformed game
+        saveGame(updatedGame) // save transformed game
         break;
       case 'draw':
         player = msg.player
@@ -63,21 +68,37 @@ wss.on('connection', ws => {
         game = getGame()
         updatedGame = transformGame(msg, game) // apply the draw to the game
         sendUpdateToAll(updatedGame)
-        setGame(updatedGame)
+        saveGame(updatedGame)
+        break;
+      case 'newGameRequest':
+        // Incoming new game request!
+        console.log('Someone requested a new game!')
+        // create a new game
+        game = newGame()
+        const id = game.id
+        // store game in games dictionary to link it with its ID
+        gameStates[id] = game
+        // send the game ID to the client's webpage to be reloaded to so they can join it
+        sendNewGameResponse(ws, id)
         break;
       case 'reset':
-        console.log('Someone reset the game')
-        setGame(newGame())
-        console.log(getGame()) // doesn't have fresh bag
+        console.log('Someone reset the game, will not probably work')
+        saveGame(newGame())
         sendUpdateToAll(getGame())
         break;
     }
   })
   // remove connection from connections hash when connection is closed
   ws.on('close', () => {
-    console.log('Someone left, removing them from connections')
-    var connectionsList = connections['1'] // FIXME: currently hardcoded to only work with the one game
-    listRemove(connectionsList, ws)
+    console.log('Someone left, removing them from any games they were connected to')
+
+    // walk through every connection list for every game
+    Object.keys(connections).forEach((gameId, i) => {
+      // remove this connection from each one
+      console.log('Removing ws from connections to game: ', gameId)
+      listRemove(connections[gameId], ws)
+      // if it wasn't in there, nothing will change
+    })
     console.log('Connections: ', connections)
   })
 })
@@ -87,7 +108,9 @@ function makeGame(id, player_table, bag) {
 }
 
 function newGame() {
-  return makeGame(1, {'Player 1':[], 'Player 2':[]}, newBag())
+  const gameId = get_random(nineLetterWords)
+  console.log('Making a game with random ID: ', gameId)
+  return makeGame(gameId, {'Player 1':[], 'Player 2':[]}, newBag())
 }
 
 function newBag() {
@@ -95,12 +118,18 @@ function newBag() {
   return [...scrabbleLetters]
 }
 
-function setGame(game) {
-  gameState = game
+
+// takes a game, looks up its ID, and writes it over the old version
+// of the same game in the gameStates dictionary.
+// If there wasn't an old version, saves it.
+function saveGame(game) {
+  var gameId = game.id
+  gameStates[gameId] = game
 }
 
-function getGame() {
-  return gameState
+// takes a game ID and returns the corresponding game
+function getGame(gameId) {
+  return gameStates[gameId]
 }
 
 // from: https://stackoverflow.com/questions/5915096
@@ -109,9 +138,12 @@ function get_random(list) {
 }
 
 // helper function to remove item from list
+// does nothing if item is not in list
 function listRemove(list, item) {
   const index = list.indexOf(item)
-  list.splice(index, 1)
+  if (index != -1) {
+    list.splice(index, 1)
+  }
 }
 
 // takes a message (must be play or draw) and a game and returns the result of the play or draw, after making sure it's legal
@@ -162,12 +194,17 @@ function transformGame(msg, game) {
 }
 
 function sendUpdate(ws, game) {
-  var updateObject = { type: 'update', game: game}
-  ws.send(JSON.stringify(updateObject));
+  var updateObject = { type: 'update', game: game }
+  ws.send(JSON.stringify(updateObject))
+}
+
+function sendNewGameResponse(ws, id) {
+  ws.send(JSON.stringify( { type: 'newGameResponse', id: id } ))
 }
 
 // takes a game and uses the connections list to send an update to each ws in the connection list for that game
 function sendUpdateToAll(game) {
+  console.log('game states: ', gameStates)
   var connectionsList = connections[game.id]
   connectionsList.forEach((connection, i) => {
     sendUpdate(connection, game)
