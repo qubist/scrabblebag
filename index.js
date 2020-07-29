@@ -110,6 +110,9 @@ function writeBag(game) {
   result = result.substring(0, result.length - 2) // remove final ', '
 
   bagE.textContent = result
+
+  // put the number of tiles left in the title of bag
+  document.getElementById('bag-button').textContent = `Bag: ${game.bag.length}`
 }
 
 function writeHands(game) {
