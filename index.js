@@ -82,14 +82,16 @@ function sendJoin(gameId) {
 }
 
 // send a play object of a letter by a player
+// takes only letter and play but sends object containing game ID
 function sendPlay(letter, player) {
   letter = letter.toUpperCase()
-  var playObject = { type: 'play', letter: letter, player: player}
+  var playObject = { type: 'play', letter: letter, player: player, id: window.location.pathname.substring(1) }
   socket.send(JSON.stringify(playObject))
 }
 
+// takes only play but sends object containing game ID
 function sendDraw(player) {
-  var drawObject = { type: 'draw', player: player }
+  var drawObject = { type: 'draw', player: player, id: window.location.pathname.substring(1) }
   socket.send(JSON.stringify(drawObject))
 }
 
