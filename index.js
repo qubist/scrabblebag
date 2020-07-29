@@ -55,7 +55,7 @@ socket.onopen = function () {
     sendNewGameRequest() // send a new game request to get us into a game!
   } else if (hasLower(pathAfterSlash)) {
     // if the path has a lowercase letter, reload to the uppercase'd version
-    window.location.assign(`${window.location.href}${pathAfterSlash.toUpperCase()}`)
+    window.location.assign(`http://${window.location.hostname}/${pathAfterSlash.toUpperCase()}`)
   } else {
     // otherwise, we've got an uppercase maybe game ID
     // check that maybeGameId is correct (9 letters and uppercase alpha)
