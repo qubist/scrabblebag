@@ -7,7 +7,7 @@ socket.onmessage = function (event) {
 
   // do something with the message depending on its type
   switch(msg.type) {
-    case "update":
+    case 'update':
       game = msg.game
       // update game board with new game info
       writeBag(game)
