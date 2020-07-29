@@ -150,7 +150,7 @@ function listRemove(list, item) {
 
 // takes a message (must be play or draw) and a game and returns the result of the play or draw, after making sure it's legal
 function transformGame(msg, game) {
-  console.log('transforming game with message:', msg)
+  console.log(`transforming game ${game.id} with message: ${msg}`)
   var id = game.id
   var player_table = game.players
   var bag = game.bag
@@ -206,7 +206,8 @@ function sendNewGameResponse(ws, id) {
 
 // takes a game and uses the connections list to send an update to each ws in the connection list for that game
 function sendUpdateToAll(game) {
-  console.log('game states: ', gameStates)
+  // console.log('game states: ', gameStates) // was too huge
+  console.log(`Currently active games: ${Object.keys(gameStates)}`)
   var connectionsList = connections[game.id]
   connectionsList.forEach((connection, i) => {
     sendUpdate(connection, game)
