@@ -54,18 +54,20 @@ wss.on('connection', ws => {
       case 'play':
         letter = msg.letter // get the letter that was played
         player = msg.player
-        console.log(`Player ${player} is trying to play letter ${letter}!`)
+        gameId = msg.id
+        console.log(`Player ${player} is trying to play letter ${letter} in game: ${gameId}!`)
 
         // send out an update with the updated game as defined by the transform function
-        game = getGame() // grab the game
+        game = getGame(gameId) // grab the game
         updatedGame = transformGame(msg, game) // apply the move to it
         sendUpdateToAll(updatedGame) // send out update with transformed game
         saveGame(updatedGame) // save transformed game
         break;
       case 'draw':
         player = msg.player
-        console.log(`Player ${player} is trying to draw!`)
-        game = getGame()
+        gameId = msg.id
+        console.log(`Player ${player} is trying to draw in game: ${gameId}!`)
+        game = getGame(gameId)
         updatedGame = transformGame(msg, game) // apply the draw to the game
         sendUpdateToAll(updatedGame)
         saveGame(updatedGame)
