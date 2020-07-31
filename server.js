@@ -101,7 +101,7 @@ wss.on('connection', ws => {
 })
 
 function makeGame(id, player_table, numPlayers, bag) {
-  return { type: 'game', id: id, players: player_table, numPlayers: numPlayers bag: bag }
+  return { type: 'game', id: id, players: player_table, numPlayers: numPlayers, bag: bag }
 }
 
 function newGame(numPlayers) {
