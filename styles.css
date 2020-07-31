@@ -1,7 +1,6 @@
 body {
   font-family: sans-serif;
   font-size: 15px;
-  
 }
 
 .collapsible, .collapsible-confirm {
@@ -38,4 +37,27 @@ body {
 .active::after {
   color: white;
   content: "-";
+}
+
+.grid-container {
+  display: grid;
+  width: 370px;
+  grid-gap: 15px;
+  grid-template-columns: repeat(7, 40px);
+  grid-template-rows: 40px;
+  background-color: #2196F3;
+  padding: 10px;
+}
+
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  font-size: 30px;
+  text-align: center;
+  padding: 8px 0;
+  cursor: pointer;
+}
+
+.selected {
+  outline: 3px solid rgba(255, 0, 0, 0.8);
 }
