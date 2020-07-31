@@ -74,19 +74,14 @@ wss.on('connection', ws => {
         break;
       case 'newGameRequest':
         // Incoming new game request!
-        console.log('Someone requested a new game!')
+        console.log(`Someone requested a new game for ${msg.numPlayers} players!`)
         // create a new game
-        game = newGame()
+        game = newGame(msg.numPlayers)
         const id = game.id
         // store game in games dictionary to link it with its ID
         gameStates[id] = game
         // send the game ID to the client's webpage to be reloaded to so they can join it
         sendNewGameResponse(ws, id)
-        break;
-      case 'reset':
-        console.log('Someone reset the game, will not probably work')
-        saveGame(newGame())
-        sendUpdateToAll(getGame())
         break;
     }
   })
@@ -105,14 +100,15 @@ wss.on('connection', ws => {
   })
 })
 
-function makeGame(id, player_table, bag) {
-  return { type: 'game', id: id, players: player_table, bag: bag }
+function makeGame(id, player_table, numPlayers, bag) {
+  return { type: 'game', id: id, players: player_table, numPlayers: numPlayers, bag: bag }
 }
 
-function newGame() {
+function newGame(numPlayers) {
   const gameId = get_random(nineLetterWords)
   console.log('Making a game with random ID: ', gameId)
-  return makeGame(gameId, {'Player 1':[], 'Player 2':[]}, newBag())
+  // player_table is four name : hand pairs
+  return makeGame(gameId, {'Player 1':[], 'Player 2':[], 'Player 3':[], 'Player 4':[]}, numPlayers, newBag())
 }
 
 function newBag() {
