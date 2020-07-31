@@ -62,7 +62,9 @@ socket.onopen = function () {
   const path = window.location.pathname
   const pathAfterSlash = path.substring(1)
 
-  if (hasLower(pathAfterSlash) && isAlpha(pathAfterSlash) && pathAfterSlash.length === 9) {
+  if (path === '/') { // if on homepage
+    // do nothing
+  } else if (hasLower(pathAfterSlash) && isAlpha(pathAfterSlash) && pathAfterSlash.length === 9) {
     // if the path looks valid and has a lowercase letter, reload to the uppercase'd version
     window.location.assign(`http://${window.location.hostname}/${pathAfterSlash.toUpperCase()}`)
   } else {
@@ -150,4 +152,29 @@ function writeHand(game, playerName) {
 
 function playerNameToHandId(name) {
   return name.replace(' ', '_') + '-hand'
+}
+
+// hides sections of the page to only show number of players specified
+// takes an int number of players to keep around
+function hidePlayers(numPlayers) {
+  var toHide = [] // list of classes to hide
+  switch(numPlayers) {
+    case 2:
+      toHide = ["player-3", "player-4"]
+      break
+    case 3:
+      toHide = ["player-4"]
+      break
+    case 4:
+      // keep it empty
+      break
+    default:
+      console.log("Some kinda error. Ya can't have 1 or more than 4 players..")
+  }
+  for (const className of toHide) {
+    for (const element of document.getElementsByClassName(className)) {
+      element.style.display = "none"
+      console.log(`hiding ${className}`)
+    }
+  }
 }
