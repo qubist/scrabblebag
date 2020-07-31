@@ -32,13 +32,10 @@ wss.on('connection', ws => {
 
         // because of the newGameRequest/Response system, this will only be sent by the system for a game that already exists.
         // Unless someone just typed in a valid 9 letter word in the URL. So we have to check that the game exists and if it doesn't, do nothing.
-
         gameId = msg.id
-
         if (!(gameId in gameStates)) {
-          break;
+          break
         }
-
         // add this connection to the list of people to update for the game it connected to
         // if the game has no connection list, make it
         if (!connections[gameId]) {
@@ -50,7 +47,7 @@ wss.on('connection', ws => {
         console.log('Connections: ', connections)
 
         sendUpdateToAll(getGame(gameId)) // send out an update to everyone in this game
-        break;
+        break
       case 'play':
         letter = msg.letter // get the letter that was played
         player = msg.player
@@ -62,7 +59,7 @@ wss.on('connection', ws => {
         updatedGame = transformGame(msg, game) // apply the move to it
         sendUpdateToAll(updatedGame) // send out update with transformed game
         saveGame(updatedGame) // save transformed game
-        break;
+        break
       case 'draw':
         player = msg.player
         gameId = msg.id
@@ -71,7 +68,7 @@ wss.on('connection', ws => {
         updatedGame = transformGame(msg, game) // apply the draw to the game
         sendUpdateToAll(updatedGame)
         saveGame(updatedGame)
-        break;
+        break
       case 'newGameRequest':
         // Incoming new game request!
         console.log(`Someone requested a new game for ${msg.numPlayers} players!`)
@@ -82,7 +79,7 @@ wss.on('connection', ws => {
         gameStates[id] = game
         // send the game ID to the client's webpage to be reloaded to so they can join it
         sendNewGameResponse(ws, id)
-        break;
+        break
     }
   })
   // remove connection from connections hash when connection is closed
