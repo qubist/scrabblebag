@@ -124,19 +124,19 @@
     for (i = 0; i < coll.length; i++) {
       coll[i].addEventListener("click", function() {
         this.classList.toggle("active")
-        var content = this.nextElementSibling;
+        var content = this.nextElementSibling
         // toggle visibility of content
         if (content.style.display === "block") {
-          content.style.display = "none";
+          content.style.display = "none"
         } else {
-          content.style.display = "block";
+          content.style.display = "block"
         }
       })
     }
     var collConf = document.getElementsByClassName("collapsible-confirm")
     for (i = 0; i < collConf.length; i++) {
       collConf[i].addEventListener("click", function() {
-        var content = this.nextElementSibling;
+        var content = this.nextElementSibling
         // show content if confirmed, or hide
         if (content.style.display === "block") {
           content.style.display = "none" // hide all the time
@@ -149,8 +149,6 @@
         }
       })
     }
-
-    // hide all the
 
   </script>
 

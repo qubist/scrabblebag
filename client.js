@@ -14,7 +14,7 @@ socket.onmessage = function (event) {
       renderHands(game)
       hidePlayers(game.numPlayers)
       // FIXME: there's a Flicker Of Unupdated Content because of this code
-      break;
+      break
     case 'newGameResponse':
       id = msg.id
       // reload the page to the new game's url
@@ -26,7 +26,7 @@ socket.onmessage = function (event) {
 // helper function to check if a string contains only uppercase letters
 // from: https://stackoverflow.com/questions/4434076
 function isALPHA(str) {
-  var code, i, len;
+  var code, i, len
   for (i = 0, len = str.length; i < len; i++) {
     code = str.charCodeAt(i)
     if (!(code > 64 && code < 91)) { // upper alpha (A-Z)
@@ -37,7 +37,7 @@ function isALPHA(str) {
 }
 
 function isAlpha(str) {
-  var code, i, len;
+  var code, i, len
   for (i = 0, len = str.length; i < len; i++) {
     code = str.charCodeAt(i)
     if ((!(code > 64 && code < 91)) &&
@@ -50,7 +50,7 @@ function isAlpha(str) {
 
 // helper function to detect if there are any lowercase letters in a string
 function hasLower(str) {
-  var code, i, len;
+  var code, i, len
   for (i = 0, len = str.length; i < len; i++) {
     code = str.charCodeAt(i)
     if (code > 96 && code < 123) { // lower alpha (a-z)
@@ -124,7 +124,6 @@ function renderBag(game) {
   // bag element of the webpage
   bagE = document.getElementById('bag')
 
-  // console.log(game.bag)
   var result = ''
   game.bag.forEach((tile, i) => {
     result = result + tile + ', '
@@ -222,7 +221,6 @@ function hidePlayers(numPlayers) {
   for (const className of toHide) {
     for (const element of document.getElementsByClassName(className)) {
       element.style.display = "none"
-      // console.log(`hiding ${className}`)
     }
   }
 }

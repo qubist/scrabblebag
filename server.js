@@ -134,7 +134,7 @@ function getGame(gameId) {
 
 // from: https://stackoverflow.com/questions/5915096
 function get_random(list) {
-  return list[Math.floor((Math.random()*list.length))];
+  return list[Math.floor((Math.random()*list.length))]
 }
 
 // helper function to remove item from list
@@ -204,7 +204,6 @@ function sendNewGameResponse(ws, id) {
 
 // takes a game and uses the connections list to send an update to each ws in the connection list for that game
 function sendUpdateToAll(game) {
-  // console.log('game states: ', gameStates) // was too huge
   console.log(`Currently active games: ${Object.keys(gameStates)}`)
   var connectionsList = connections[game.id]
   connectionsList.forEach((connection, i) => {

@@ -38,11 +38,9 @@ function arrayFromLettersDict(lettersDict) {
     var name = key
     var count = value[0]
     // var score = value[1]
-    // console.log("looking at name: ", name, " and count: ", count)
     for (const i in [...Array(count).keys()]) {
       // equivalent of range() in python. From: https://stackoverflow.com/questions/3895478/
       result.push(name)
-      // console.log("pushed: ", name)
     }
   }
   return result
