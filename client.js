@@ -10,8 +10,8 @@ socket.onmessage = function (event) {
     case 'update':
       game = msg.game
       // update game board with new game info
-      writeBag(game)
-      writeHands(game)
+      renderBag(game)
+      renderHands(game)
       hidePlayers(game.numPlayers)
       // FIXME: there's a Flicker Of Unupdated Content because of this code
       break;
@@ -102,6 +102,13 @@ function sendPlay(letter, player) {
   socket.send(JSON.stringify(playObject))
 }
 
+// sends multiple plays for each letter in an array
+function playMultiple(letterList, player) {
+  for (const letter of letterList) {
+    sendPlay(letter, player)
+  }
+}
+
 // takes only play but sends object containing game ID
 function sendDraw(player) {
   var drawObject = { type: 'draw', player: player, id: window.location.pathname.substring(1) }
@@ -113,7 +120,7 @@ function sendReset() {
   socket.send(JSON.stringify(resetObject))
 }
 
-function writeBag(game) {
+function renderBag(game) {
   // bag element of the webpage
   bagE = document.getElementById('bag')
 
@@ -130,26 +137,65 @@ function writeBag(game) {
   document.getElementById('bag-button').textContent = `Bag: ${game.bag.length}`
 }
 
-function writeHands(game) {
-  // iterate through dictionary of players and write each one's hand
+function renderHands(game) {
+  // iterate through dictionary of players and render each one's hand
   for (const [name, hand] of Object.entries(game.players)) {
     console.log('writing hand:', name, hand)
-    writeHand(game, name)
+    renderHand(game, name)
   }
 }
 
-// player is player name as a string: needs to be converted to element-id format.
-function writeHand(game, playerName) {
-  const handElementId = playerNameToHandId(playerName)
-  // hand element of the webpage:
-  handE = document.getElementById(handElementId)
+// set a tile in a hand as selected
+function setSelected(id) {
+  document.getElementById(id).classList.toggle('selected')
+}
 
-  var result = 'Hand:   ' // two extra spaces here so they get cut off when removing final ', ' later.
-  game.players[playerName].forEach((letter, i) => {
-    result += letter + ', '
-  });
-  result = result.substring(0, result.length - 2) // remove final ', '
-  handE.textContent = result
+function clearSelected(playerNum) {
+  for (const child of document.getElementById(`hand-P${playerNum}`).children) {
+    child.classList.remove('selected')
+  }
+}
+
+// returns the selected letters from a specified player's hand as an array
+function getSelected(playerNum) {
+  var result = []
+  for (const child of document.getElementById(`hand-P${playerNum}`).children) {
+    if (child.classList.contains('selected')) {
+      result.push(child.textContent)
+    }
+  }
+  return result
+}
+
+// player is player name as a string: needs to be converted to element-id format.
+function renderHand(game, playerName) {
+  const handElementId = playerNameToHandId(playerName)
+  // hand element of the webpage
+  const handE = document.getElementById(handElementId)
+  // colection of the tiles of the hand
+  const tiles = handE.children
+
+  // clear all the tile labels and show them all
+  for (const tile of tiles) { // i miss python <3
+    tile.textContent = ''
+    tile.style.display = "block"
+  }
+
+  // put each letter in the hand onto a tile
+  const hand = game.players[playerName]
+  // hand.forEach((letter, i) => {
+  for (const [i, letter] of hand.entries()) {
+    handE.children[i].textContent = letter
+  }
+
+  // hide the tiles with no letter on them
+  for (const tile of tiles) {
+    if (tile.textContent === '') {
+      // hide that shit
+      tile.style.display = 'none'
+    }
+  }
+
 }
 
 function playerNameToHandId(name) {
@@ -162,10 +208,10 @@ function hidePlayers(numPlayers) {
   var toHide = [] // list of classes to hide
   switch(numPlayers) {
     case 2:
-      toHide = ["player-3", "player-4"]
+      toHide = ["P3", "P4"]
       break
     case 3:
-      toHide = ["player-4"]
+      toHide = ["P4"]
       break
     case 4:
       // keep it empty
@@ -176,7 +222,7 @@ function hidePlayers(numPlayers) {
   for (const className of toHide) {
     for (const element of document.getElementsByClassName(className)) {
       element.style.display = "none"
-      console.log(`hiding ${className}`)
+      // console.log(`hiding ${className}`)
     }
   }
 }

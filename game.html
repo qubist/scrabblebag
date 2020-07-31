@@ -16,81 +16,31 @@
       <span id="bag"></span>
     </div>
 
-    <button type="button" class="collapsible player-1">Player 1</button>
-    <div class="content player-1">
-      <div class="hand">
-        <span id="Player_1-hand">Hand: </span>
-      </div>
+    <button id="button-P1" type="button" class="collapsible P1">Player 1</button>
+    <div class="content P1">
+      <div id="Player_1-hand" class="hand grid-container">
+          <div id="hand-0-P1" class="grid-item" onclick="setSelected('hand-0-P1')">A</div>
+          <div id="hand-1-P1" class="grid-item" onclick="setSelected('hand-1-P1')"></div>
+          <div id="hand-2-P1" class="grid-item" onclick="setSelected('hand-2-P1')"></div>
+          <div id="hand-3-P1" class="grid-item" onclick="setSelected('hand-3-P1')"></div>
+          <div id="hand-4-P1" class="grid-item" onclick="setSelected('hand-4-P1')"></div>
+          <div id="hand-5-P1" class="grid-item" onclick="setSelected('hand-5-P1')"></div>
+          <div id="hand-6-P1" class="grid-item" onclick="setSelected('hand-6-P1')"></div>
+       </div>
       <br>
-      <input type="text" id="letter-P1" placeholder="Enter a letter">
       <input type="button" value="Play" onclick="
-        var player = 'Player 1'
-        var letter = document.getElementById('letter-P1').value
-        sendPlay(letter, player)
-        document.getElementById('letter-P1').value=''
-      ">
+        var player = document.getElementById('button-P1').textContent
+        var letters = getSelected(1)
+        playMultiple(letters, player)
+        clearSelected(1)">
       <input type="button" value="Draw" onclick="
-        var player = 'Player 1'
+        var player = document.getElementById('button-P1').textContent
         sendDraw(player)
       ">
     </div>
 
-    <button type="button" class="collapsible player-2">Player 2</button>
-    <div class="content player-2">
-      <div class="hand">
-        <span id="Player_2-hand">Hand: </span>
-      </div>
-      <br>
-      <input type="text" id="letter-P2" placeholder="Enter a letter">
-      <input type="button" value="Play" onclick="
-        var player = 'Player 2'
-        var letter = document.getElementById('letter-P2').value
-        sendPlay(letter, player)
-        document.getElementById('letter-P2').value=''
-      ">
-      <input type="button" value="Draw" onclick="
-        var player = 'Player 2'
-        sendDraw(player)
-      ">
-    </div>
 
-    <button type="button" class="collapsible player-3">Player 3</button>
-    <div class="content player-3">
-      <div class="hand">
-        <span id="Player_3-hand">Hand: </span>
-      </div>
-      <br>
-      <input type="text" id="letter-P3" placeholder="Enter a letter">
-      <input type="button" value="Play" onclick="
-        var player = 'Player 3'
-        var letter = document.getElementById('letter-P3').value
-        sendPlay(letter, player)
-        document.getElementById('letter-P3').value=''
-      ">
-      <input type="button" value="Draw" onclick="
-        var player = 'Player 3'
-        sendDraw(player)
-      ">
-    </div>
 
-    <button type="button" class="collapsible player-4">Player 4</button>
-    <div class="content player-4">
-      <div class="hand">
-        <span id="Player_4-hand">Hand: </span>
-      </div>
-      <br>
-      <input type="text" id="letter-P4" placeholder="Enter a letter">
-      <input type="button" value="Play" onclick="
-        var player = 'Player 4'
-        var letter = document.getElementById('letter-P4').value
-        sendPlay(letter, player)
-        document.getElementById('letter-P4').value=''
-      ">
-      <input type="button" value="Draw" onclick="
-        var player = 'Player 4'
-        sendDraw(player)
-      ">
-    </div>
 
   </body>
 

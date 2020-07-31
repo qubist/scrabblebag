@@ -34,6 +34,11 @@ wss.on('connection', ws => {
         // Unless someone just typed in a valid 9 letter word in the URL. So we have to check that the game exists and if it doesn't, do nothing.
         gameId = msg.id
         if (!(gameId in gameStates)) {
+          console.log('Someone is trying to join a game that does not exist!')
+          // redirect to a page that says no game exists?
+          // hide everything?
+          // send back something that says there's an error?
+          // FIXME
           break
         }
         // add this connection to the list of people to update for the game it connected to
