@@ -30,9 +30,9 @@
       <br>
       <input type="button" value="Play" onclick="
         var player = document.getElementById('button-P1').textContent
-        var letters = getSelected(1)
+        var letters = getSelected(player)
         playMultiple(letters, player)
-        clearSelected(1)">
+        clearSelected(player)">
       <input type="button" value="Draw" onclick="
         var player = document.getElementById('button-P1').textContent
         sendDraw(player)
