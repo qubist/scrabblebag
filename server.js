@@ -150,7 +150,7 @@ function listRemove(list, item) {
 
 // takes a message (must be play or draw) and a game and returns the result of the play or draw, after making sure it's legal
 function transformGame(msg, game) {
-  console.log(`transforming game ${game.id} with message: ${msg}`)
+  console.log('transforming game ', game.id, 'with message: ', msg)
   var id = game.id
   var player_table = game.players
   var bag = game.bag
@@ -165,7 +165,7 @@ function transformGame(msg, game) {
     if (hand.includes(letter)) {
       listRemove(hand, letter)
     } else {
-      console.log('Letter played wasn\'t in the hand! Not changing anything:', game)
+      console.log('Letter played wasn\'t in the hand! Not changing anything')
       // ERROR, letter wasn't in hand!
     }
     return game
