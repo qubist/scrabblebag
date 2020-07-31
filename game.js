@@ -34,6 +34,18 @@ function isALPHA(str) {
   return true
 }
 
+function isAlpha(str) {
+  var code, i, len;
+  for (i = 0, len = str.length; i < len; i++) {
+    code = str.charCodeAt(i)
+    if ((!(code > 64 && code < 91)) &&
+      (!(code > 96 && code < 123))) { // upper alpha (A-Z)
+      return false
+    }
+  }
+  return true
+}
+
 // helper function to detect if there are any lowercase letters in a string
 function hasLower(str) {
   var code, i, len;
@@ -46,15 +58,12 @@ function hasLower(str) {
   return false
 }
 
-
 socket.onopen = function () {
   const path = window.location.pathname
   const pathAfterSlash = path.substring(1)
 
-  if (path === '/') { // if on homepage
-    sendNewGameRequest() // send a new game request to get us into a game!
-  } else if (hasLower(pathAfterSlash)) {
-    // if the path has a lowercase letter, reload to the uppercase'd version
+  if (hasLower(pathAfterSlash) && isAlpha(pathAfterSlash) && pathAfterSlash.length === 9) {
+    // if the path looks valid and has a lowercase letter, reload to the uppercase'd version
     window.location.assign(`http://${window.location.hostname}/${pathAfterSlash.toUpperCase()}`)
   } else {
     // otherwise, we've got an uppercase maybe game ID
