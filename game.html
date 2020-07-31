@@ -16,8 +16,8 @@
       <span id="bag"></span>
     </div>
 
-    <button type="button" class="collapsible">Player 1</button>
-    <div class="content">
+    <button type="button" id="player-1" class="collapsible">Player 1</button>
+    <div id="player-1" class="content">
       <div class="hand">
         <span id="Player_1-hand">Hand: </span>
       </div>
@@ -35,8 +35,8 @@
       ">
     </div>
 
-    <button type="button" class="collapsible">Player 2</button>
-    <div class="content">
+    <button type="button" id="player-2" class="collapsible">Player 2</button>
+    <div id="player-2" class="content">
       <div class="hand">
         <span id="Player_2-hand">Hand: </span>
       </div>
@@ -53,6 +53,45 @@
         sendDraw(player)
       ">
     </div>
+
+    <button type="button" id="player-3" class="collapsible">Player 3</button>
+    <div id="player-3" class="content">
+      <div class="hand">
+        <span id="Player_3-hand">Hand: </span>
+      </div>
+      <br>
+      <input type="text" id="letter-P3" placeholder="Enter a letter">
+      <input type="button" value="Play" onclick="
+        var player = 'Player 3'
+        var letter = document.getElementById('letter-P3').value
+        sendPlay(letter, player)
+        document.getElementById('letter-P3').value=''
+      ">
+      <input type="button" value="Draw" onclick="
+        var player = 'Player 3'
+        sendDraw(player)
+      ">
+    </div>
+
+    <button type="button" id="player-4" class="collapsible">Player 4</button>
+    <div id="player-4" class="content">
+      <div class="hand">
+        <span id="Player_4-hand">Hand: </span>
+      </div>
+      <br>
+      <input type="text" id="letter-P4" placeholder="Enter a letter">
+      <input type="button" value="Play" onclick="
+        var player = 'Player 4'
+        var letter = document.getElementById('letter-P4').value
+        sendPlay(letter, player)
+        document.getElementById('letter-P4').value=''
+      ">
+      <input type="button" value="Draw" onclick="
+        var player = 'Player 4'
+        sendDraw(player)
+      ">
+    </div>
+
   </body>
 
   <script>

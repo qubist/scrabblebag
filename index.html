@@ -10,7 +10,13 @@
   <body>
     <h1>Scrabblebag</h1>
     <input type="button" value="Request New Game" onclick="
-        sendNewGameRequest()
+        var numPlayers = getElementById('players')
+        sendNewGameRequest(numPlayers)
       ">
+    <select name="players" id="players">
+      <option value="2">2 players</option>
+      <option value="3">3 players</option>
+      <option value="4">4 players</option>
+    </select>
   </body>
 </html>

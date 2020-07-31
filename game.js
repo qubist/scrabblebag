@@ -79,9 +79,9 @@ socket.onopen = function () {
   }
 }
 
-function sendNewGameRequest() {
-  console.log('Sending newGameRequest!')
-  socket.send(JSON.stringify( { type: 'newGameRequest' } ))
+function sendNewGameRequest(numPlayers) {
+  console.log(`Sending newGameRequest for ${numPlayers} players!`)
+  socket.send(JSON.stringify( { type: 'newGameRequest', numPlayers: numPlayers } ))
 }
 
 // send someone joining a game
