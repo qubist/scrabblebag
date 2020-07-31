@@ -83,11 +83,6 @@ wss.on('connection', ws => {
         // send the game ID to the client's webpage to be reloaded to so they can join it
         sendNewGameResponse(ws, id)
         break;
-      case 'reset':
-        console.log('Someone reset the game, will not probably work')
-        saveGame(newGame())
-        sendUpdateToAll(getGame())
-        break;
     }
   })
   // remove connection from connections hash when connection is closed
