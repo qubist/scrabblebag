@@ -13,6 +13,7 @@ socket.onmessage = function (event) {
       writeBag(game)
       writeHands(game)
       hidePlayers(game.numPlayers)
+      // FIXME: there's a Flicker Of Unupdated Content because of this code
       break;
     case 'newGameResponse':
       id = msg.id
