@@ -150,16 +150,16 @@ function setSelected(id) {
   document.getElementById(id).classList.toggle('selected')
 }
 
-function clearSelected(playerNum) {
-  for (const child of document.getElementById(`hand-P${playerNum}`).children) {
+function clearSelected(playerName) {
+  for (const child of document.getElementById(playerNameToHandId(playerName)).children) {
     child.classList.remove('selected')
   }
 }
 
 // returns the selected letters from a specified player's hand as an array
-function getSelected(playerNum) {
+function getSelected(playerName) {
   var result = []
-  for (const child of document.getElementById(`hand-P${playerNum}`).children) {
+  for (const child of document.getElementById(playerNameToHandId(playerName)).children) {
     if (child.classList.contains('selected')) {
       result.push(child.textContent)
     }
@@ -170,6 +170,7 @@ function getSelected(playerNum) {
 // player is player name as a string: needs to be converted to element-id format.
 function renderHand(game, playerName) {
   const handElementId = playerNameToHandId(playerName)
+  console.log(handElementId);
   // hand element of the webpage
   const handE = document.getElementById(handElementId)
   // colection of the tiles of the hand
