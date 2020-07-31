@@ -170,7 +170,6 @@ function getSelected(playerName) {
 // player is player name as a string: needs to be converted to element-id format.
 function renderHand(game, playerName) {
   const handElementId = playerNameToHandId(playerName)
-  console.log(handElementId);
   // hand element of the webpage
   const handE = document.getElementById(handElementId)
   // colection of the tiles of the hand
