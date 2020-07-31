@@ -12,6 +12,7 @@ socket.onmessage = function (event) {
       // update game board with new game info
       writeBag(game)
       writeHands(game)
+      hidePlayers(game.numPlayers)
       break;
     case 'newGameResponse':
       id = msg.id
