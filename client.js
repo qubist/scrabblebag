@@ -12,6 +12,7 @@ socket.onmessage = function (event) {
       // update game board with new game info
       renderBag(game)
       renderHands(game)
+      renderNames(game)
       hidePlayers(game.numPlayers)
       // FIXME: there's a Flicker Of Unupdated Content because of this code
       break
@@ -115,6 +116,14 @@ function sendDraw(player) {
   socket.send(JSON.stringify(drawObject))
 }
 
+// { type: 'changeName',
+//   player: (str) the player whose name is being changed,
+//   newName: (str) the new name }
+//
+// Example - { type: 'changeName', player: 'Player 1', newName: 'X Æ A-Xii'}
+function sendChangeName(player, newName) {
+  var changeNameObject = { type: 'changeName', player: player, newName: newName}
+  socket.send(JSON.stringify(changeNameObject))
 }
 
 function renderBag(game) {
@@ -138,6 +147,18 @@ function renderHands(game) {
   for (const [name, hand] of Object.entries(game.players)) {
     console.log('writing hand:', name, hand)
     renderHand(game, name)
+  }
+}
+
+function renderNames(game) {
+  const playerButtons = document.getElementsByClassName('player-button')
+  // change HTMLcollection into array so we can use .entries() to enumerate it
+  const playerButtonsArray = [...playerButtons]
+  // get list of names from game object
+  const names = Object.keys(game.players)
+  for (const [i, playerButton] of playerButtonsArray.entries()) {
+    // assign everyone their name from the game object
+    playerButton.textContent = names[i]
   }
 }
 

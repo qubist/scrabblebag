@@ -85,6 +85,27 @@ wss.on('connection', ws => {
         // send the game ID to the client's webpage to be reloaded to so they can join it
         sendNewGameResponse(ws, id)
         break
+      case 'changeName':
+        // Incoming name change!
+        const player = msg.player
+        const newName = msg.newName
+        console.log(`${player} is trying to change their name to ${newName}! More power to 'em!`)
+
+        const currentNames = Object.keys(game.players)
+
+        // check that newName is not already a used name
+        if (currentNames.includes(newName)) {
+          // newName was already taken, try again!
+          // don't change anything
+          break
+        }
+
+        // update the game object
+        game = getGame(gameId)
+        const updatedGame = transformGame(msg, game) // apply name change to the game
+        sendUpdateToAll(updatedGame)
+        saveGame(updatedGame)
+        break
     }
   })
   // remove connection from connections hash when connection is closed
@@ -102,14 +123,14 @@ wss.on('connection', ws => {
   })
 })
 
-function makeGame(id, player_table, numPlayers, bag) {
-  return { type: 'game', id: id, players: player_table, numPlayers: numPlayers, bag: bag }
+function makeGame(id, playerTable, numPlayers, bag) {
+  return { type: 'game', id: id, players: playerTable, numPlayers: numPlayers, bag: bag }
 }
 
 function newGame(numPlayers) {
   const gameId = get_random(nineLetterWords)
   console.log('Making a game with random ID: ', gameId)
-  // player_table is four name : hand pairs
+  // playerTable is four name : hand pairs
   return makeGame(gameId, {'Player 1':[], 'Player 2':[], 'Player 3':[], 'Player 4':[]}, numPlayers, newBag())
 }
 
@@ -150,13 +171,14 @@ function listRemove(list, item) {
 function transformGame(msg, game) {
   console.log('transforming game ', game.id, 'with message: ', msg)
   var id = game.id
-  var player_table = game.players
+  var playerTable = game.players
   var bag = game.bag
 
+  // FIXME change to switch statement
   if (msg.type === 'play') {
     var player = msg.player
     var letter = msg.letter
-    var hand = player_table[player]
+    var hand = playerTable[player]
 
     // check that the letter being played is in the player's hand
     // and remove it from the hand
@@ -170,7 +192,7 @@ function transformGame(msg, game) {
     // replace it in the hand with a new letter from the bag
   } else if (msg.type === 'draw') {
     var player = msg.player
-    var hand = player_table[player]
+    var hand = playerTable[player]
     // check that the player's hand isn't too big
     if (hand.length === HAND_SIZE) {
       console.log('Hand was too big, so you can\'t draw!')
@@ -185,6 +207,17 @@ function transformGame(msg, game) {
     }
     // because I've mutated the hand data I don't have to recreate the game object, I just return it!
     return game
+  } else if (msg.type === 'changeName') {
+    var player = msg.player
+    var newName = msg.newName
+
+    // create new and delete the old
+    playerTable[newName] = playerTable[player]
+    delete playerTable[player]
+
+    // game was mutated, don't have to return a new thing
+    return game
+
   } else {
     // ERROR, msg wasn't play or draw!
     // don't change anything

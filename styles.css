@@ -62,3 +62,11 @@ body {
 .selected {
   outline: 3px solid rgba(255, 0, 0, 0.8);
 }
+
+.name-change-button {
+  margin-lef: 35px;
+}
+
+.player-button {
+  font-weight: bold;
+}
