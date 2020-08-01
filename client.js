@@ -115,9 +115,6 @@ function sendDraw(player) {
   socket.send(JSON.stringify(drawObject))
 }
 
-function sendReset() {
-  var resetObject = { type: 'reset' }
-  socket.send(JSON.stringify(resetObject))
 }
 
 function renderBag(game) {
