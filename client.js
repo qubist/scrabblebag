@@ -201,6 +201,14 @@ function playerNameToHandId(name) {
   return name.replace(' ', '_') + '-hand'
 }
 
+// use this later to show the score of the tiles so they look realistic
+function letterScore(letter) {
+  return {" ":"","A":"1","B":"3","C":"3","D":"2","E":"1","F":"4","G":"2",
+  "H":"4","I":"1","J":"8","K":"5","L":"1","M":"3","N":"1","O":"1","P":"3",
+  "Q":"10", "R":"1","S":"1","T":"1","U":"1","V":"4","W":"4","X":"8","Y":"4",
+  "Z":"1"}[letter]
+}
+
 // hides sections of the page to only show number of players specified
 // takes an int number of players to keep around
 function hidePlayers(numPlayers) {
