@@ -6,15 +6,17 @@ const wordsfile = require('./words9')
 const nineLetterWords = wordsfile.nineLetterWords
 
 const WebSocket = require('ws')
-
 const wss = new WebSocket.Server({ port: 8080 })
+
+const storage = require('node-persist')
+await storage.init()
 
 const HAND_SIZE = 7
 
 // hash of gameId : connection-list pairs
 var connections = {}
 
-// hash of gameId : game pairs
+// hash of gameId : game object pairs
 var gameStates = {}
 
 wss.on('connection', ws => {
@@ -141,18 +143,19 @@ function newBag() {
   return [...scrabbleLetters]
 }
 
+// node-persist API: https://www.npmjs.com/package/node-persist#api-documentation
 
 // takes a game, looks up its ID, and writes it over the old version
 // of the same game in the gameStates dictionary.
 // If there wasn't an old version, saves it.
 function saveGame(game) {
   var gameId = game.id
-  gameStates[gameId] = game
+  await storage.setItem(gameId,game)
 }
 
 // takes a game ID and returns the corresponding game
 function getGame(gameId) {
-  return gameStates[gameId]
+  return await storage.getItem(gameId)
 }
 
 // from: https://stackoverflow.com/questions/5915096
