@@ -55,7 +55,7 @@ async function run() {
           console.log(`Someone joined game ${gameId}!`)
           console.log('Connections: ', connections)
 
-          sendUpdateToAll(getGame(gameId)) // send out an update to everyone in this game
+          sendUpdateToAll(await getGame(gameId)) // send out an update to everyone in this game
           break
         case 'play':
           letter = msg.letter // get the letter that was played
@@ -64,7 +64,7 @@ async function run() {
           console.log(`Player ${player} is trying to play letter ${letter} in game: ${gameId}!`)
 
           // send out an update with the updated game as defined by the transform function
-          game = getGame(gameId) // grab the game
+          game = await getGame(gameId) // grab the game
           updatedGame = transformGame(msg, game) // apply the move to it
           sendUpdateToAll(updatedGame) // send out update with transformed game
           saveGame(updatedGame) // save transformed game
@@ -74,7 +74,7 @@ async function run() {
           player = msg.player
           gameId = msg.id
           console.log(`Player ${player} is trying to draw in game: ${gameId}!`)
-          game = getGame(gameId)
+          game = await getGame(gameId)
           updatedGame = transformGame(msg, game) // apply the draw to the game
           sendUpdateToAll(updatedGame)
           saveGame(updatedGame)
@@ -96,7 +96,7 @@ async function run() {
           newName = msg.newName
           console.log(`${player} is trying to change their name to ${newName}! More power to 'em!`)
 
-          game = getGame(gameId)
+          game = await getGame(gameId)
           const currentNames = game.players.map(player => player[0]) // first item of every player-hand array
 
           // check that newName is not already a used name
@@ -107,7 +107,7 @@ async function run() {
           }
 
           // update the game object
-          game = getGame(gameId)
+          game = await getGame(gameId)
           updatedGame = transformGame(msg, game) // apply name change to the game
           sendUpdateToAll(updatedGame)
           saveGame(updatedGame)
