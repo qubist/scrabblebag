@@ -43,7 +43,7 @@
         const newName = prompt('Enter a new name', player)
         if (newName != null && newName !== player) {
           // don't send a name change if they clicked cancel or if they're trying to change their name to their current name
-          sendChangeName(player, prompt)
+          sendChangeName(player, newName)
         }
       ">
 

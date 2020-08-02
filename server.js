@@ -92,6 +92,7 @@ wss.on('connection', ws => {
         newName = msg.newName
         console.log(`${player} is trying to change their name to ${newName}! More power to 'em!`)
 
+        game = getGame(gameId)
         const currentNames = Object.keys(game.players)
 
         // check that newName is not already a used name
