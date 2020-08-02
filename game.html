@@ -73,11 +73,8 @@
       <input type="button" class="name-change-button" value="Change name" onclick="
         var player = document.getElementById('button-P2').textContent
         const newName = prompt('Enter a new name', player)
-        if (newName != null && newName !== player) {
-          // don't send a name change if they clicked cancel or if they're trying to change their name to their current name
-          sendChangeName(player, newName)
-        }
-      ">
+        changeName(player, newName) // logic in the main file
+        ">
     </div>
 
 
