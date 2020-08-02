@@ -158,6 +158,8 @@ async function saveGame(game) {
 
 // takes a game ID and returns the corresponding game
 async function getGame(gameId) {
+  console.log(`Getting game ${gameId} with async function call to storage.getItem!`)
+  console.log(`Result was: ${await storage.getItem(gameId)}`)
   return await storage.getItem(gameId)
 }
 
