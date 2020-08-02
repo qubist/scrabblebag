@@ -19,7 +19,8 @@ var connections = {}
 var gameStates = {}
 
 async function run() {
-  await storage.init({dir: '.'})
+  await storage.init()
+  console.log('Storage set up!')
   wss.on('connection', ws => {
     console.log('Incoming connection!')
     // console.log(`Incoming connection: ${JSON.stringify(ws)}`)
@@ -261,6 +262,7 @@ function sendNewGameResponse(ws, id) {
 function sendUpdateToAll(game) {
   console.log(`Currently active games: ${Object.keys(gameStates)}`)
   var connectionsList = connections[game.id]
+  console.log(connections)
   connectionsList.forEach((connection, i) => {
     sendUpdate(connection, game)
   })
