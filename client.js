@@ -188,9 +188,7 @@ function renderNames(game) {
 }
 
 function renderButtons(game) {
-  // render the play buttons
-  renderPlayButtons()
-  // then do all the other ones
+  // render all buttons except play buttons
   const actionButtons = document.getElementsByClassName('action-button')
   for (const actionButton of actionButtons) {
     // all buttons start as disabled, undisabled them
@@ -215,6 +213,9 @@ function renderButtons(game) {
         console.log(`ERR: Some other button called ${actionButton.value} is here for some reason!`)
     }
   }
+  // then render play buttos
+  renderPlayButtons()
+
 }
 
 function renderPlayButtons() {
