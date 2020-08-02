@@ -224,11 +224,13 @@ function renderButtons(game) {
 // set a tile in a hand as selected
 function setSelected(id) {
   document.getElementById(id).classList.toggle('selected')
+  renderButtons()
 }
 
 function clearSelected(playerName) {
   for (const child of document.getElementById(playerNameToHandId(playerName)).children) {
     child.classList.remove('selected')
+    renderButtons()
   }
 }
 
