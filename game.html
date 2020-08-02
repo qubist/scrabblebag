@@ -42,7 +42,7 @@
         var player = document.getElementById('button-P1').textContent
         sendDraw(player)
       ">
-      <input type="button" class="action-button name-change-button" value="Change name" onclick="
+      <input type="button" class="action-button name-change-button" disabled value="Change name" onclick="
         var player = document.getElementById('button-P1').textContent
         const newName = prompt('Enter a new name', player)
         changeName(player, newName) // logic in the main file
