@@ -1,7 +1,7 @@
 // the tiles in scrabble
 // NAME : [count, score]
 const scrabbleLettersDict = {
-  "BLANK" : [2,  0],
+  " "     : [2,  0],
   "A"     : [9,  1],
   "B"     : [2,  3],
   "C"     : [2,  3],
