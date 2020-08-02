@@ -67,7 +67,7 @@ async function run() {
           game = await getGame(gameId) // grab the game
           updatedGame = transformGame(msg, game) // apply the move to it
           sendUpdateToAll(updatedGame) // send out update with transformed game
-          saveGame(updatedGame) // save transformed game
+          await saveGame(updatedGame) // save transformed game
           break
         case 'draw':
           console.log('msg: ', msg)
@@ -77,7 +77,7 @@ async function run() {
           game = await getGame(gameId)
           updatedGame = transformGame(msg, game) // apply the draw to the game
           sendUpdateToAll(updatedGame)
-          saveGame(updatedGame)
+          await saveGame(updatedGame)
           break
         case 'newGameRequest':
           // Incoming new game request!
@@ -110,7 +110,7 @@ async function run() {
           game = await getGame(gameId)
           updatedGame = transformGame(msg, game) // apply name change to the game
           sendUpdateToAll(updatedGame)
-          saveGame(updatedGame)
+          await saveGame(updatedGame)
           break
       }
     })
