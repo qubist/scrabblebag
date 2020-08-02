@@ -10,9 +10,9 @@ socket.onmessage = function (event) {
     case 'update':
       game = msg.game
       // update game board with new game info
+      renderNames(game)
       renderBag(game)
       renderHands(game)
-      renderNames(game)
       hidePlayers(game.numPlayers)
       // FIXME: there's a Flicker Of Unupdated Content because of this code
       break
@@ -145,7 +145,7 @@ function renderBag(game) {
 function renderHands(game) {
   // iterate through dictionary of players and render each one's hand
   for (const [name, hand] of Object.entries(game.players)) {
-    console.log('writing hand:', name, hand)
+    console.log('rendering hand:', name, hand)
     renderHand(game, name)
   }
 }
@@ -157,8 +157,12 @@ function renderNames(game) {
   // get list of names from game object
   const names = Object.keys(game.players)
   for (const [i, playerButton] of playerButtonsArray.entries()) {
-    // assign everyone their name from the game object
-    playerButton.textContent = names[i]
+    // make sure the id of the hand element matches the name in the game object (this is for name changes)
+    const oldName = playerButton.textContent
+    const newName = names[i]
+    document.getElementById(playerNameToHandId(oldName)).id = playerNameToHandId(newName)
+    // change the text content of the player button to the new name
+    playerButton.textContent = names[i] // fixme change to newName
   }
 }
 

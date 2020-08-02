@@ -46,7 +46,6 @@
           sendChangeName(player, newName)
         }
       ">
-
     </div>
 
 
@@ -70,6 +69,14 @@
       <input type="button" value="Draw" onclick="
         var player = document.getElementById('button-P2').textContent
         sendDraw(player)
+      ">
+      <input type="button" class="name-change-button" value="Change name" onclick="
+        var player = document.getElementById('button-P2').textContent
+        const newName = prompt('Enter a new name', player)
+        if (newName != null && newName !== player) {
+          // don't send a name change if they clicked cancel or if they're trying to change their name to their current name
+          sendChangeName(player, newName)
+        }
       ">
     </div>
 
@@ -95,6 +102,14 @@
         var player = document.getElementById('button-P3').textContent
         sendDraw(player)
       ">
+      <input type="button" class="name-change-button" value="Change name" onclick="
+        var player = document.getElementById('button-P3').textContent
+        const newName = prompt('Enter a new name', player)
+        if (newName != null && newName !== player) {
+          // don't send a name change if they clicked cancel or if they're trying to change their name to their current name
+          sendChangeName(player, newName)
+        }
+      ">
     </div>
 
 
@@ -118,6 +133,14 @@
       <input type="button" value="Draw" onclick="
         var player = document.getElementById('button-P4').textContent
         sendDraw(player)
+      ">
+      <input type="button" class="name-change-button" value="Change name" onclick="
+        var player = document.getElementById('button-P4').textContent
+        const newName = prompt('Enter a new name', player)
+        if (newName != null && newName !== player) {
+          // don't send a name change if they clicked cancel or if they're trying to change their name to their current name
+          sendChangeName(player, newName)
+        }
       ">
     </div>
 
