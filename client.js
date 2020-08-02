@@ -200,7 +200,7 @@ function renderButtons(game) {
     switch (actionButton.value) {
       case 'Play':
         // grey out if there's nothing selected
-        const handE = document.getElementById(playerNameToHandId(playerName)
+        const handE = document.getElementById(playerNameToHandId(playerName))
         var numSelected = 0
         for (const tile of handE.children) {
           if (tile.className.split(/\s+/).includes('selected')) {
