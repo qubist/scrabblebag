@@ -217,7 +217,7 @@ function transformGame(msg, game) {
     playerTable[newName] = playerTable[player]
     delete playerTable[player]
 
-    // game was mutated, don't have to return a new thing
+    game.players = playerTable
     return game
 
   } else {
