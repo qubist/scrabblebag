@@ -218,8 +218,8 @@ function renderButtons(game) {
 }
 
 function renderPlayButtons() {
-  const playerName = actionButton.parentElement.previousElementSibling.textContent // get player name
   const actionButtons = document.getElementsByClassName('action-button')
+  const playerName = actionButton.parentElement.previousElementSibling.textContent // get player name
   for (const actionButton of actionButtons) {
     if (actionButton.value === 'Play') {
       actionButton.disabled = false
