@@ -96,19 +96,11 @@ function sendJoin(gameId) {
   socket.send(JSON.stringify(joinObject))
 }
 
-// send a play object of a letter by a player
-// takes only letter and play but sends object containing game ID
-function sendPlay(letter, player) {
-  letter = letter.toUpperCase()
-  var playObject = { type: 'play', letter: letter, player: player, id: window.location.pathname.substring(1) }
+// send a play object of an array of letters by a player
+// takes only letters and play but sends object containing game ID
+function sendPlay(letters, player) {
+  var playObject = { type: 'play', letters: letters, player: player, id: window.location.pathname.substring(1) }
   socket.send(JSON.stringify(playObject))
-}
-
-// sends multiple plays for each letter in an array
-function playMultiple(letterList, player) {
-  for (const letter of letterList) {
-    sendPlay(letter, player)
-  }
 }
 
 // takes only play but sends object containing game ID

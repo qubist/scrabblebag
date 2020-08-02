@@ -36,10 +36,7 @@ async function run() {
           gameId = msg.id
           if (!((await storage.keys()).includes(gameId))) {
             console.log('Someone is trying to join a game that does not exist!')
-            // redirect to a page that says no game exists?
-            // hide everything?
-            // send back something that says there's an error?
-            // FIXME
+            // No updates will have been sent if this happens, so no names will be displayed and all buttons will be disabled, preventing any sends and indicating that there's no game
             break
           }
           // add this connection to the list of people to update for the game it connected to
@@ -55,10 +52,10 @@ async function run() {
           sendUpdateToAll(await getGame(gameId)) // send out an update to everyone in this game
           break
         case 'play':
-          letter = msg.letter // get the letter that was played
+          letters = msg.letters // get the letters played
           player = msg.player
           gameId = msg.id
-          console.log(`Player ${player} is trying to play letter ${letter} in game: ${gameId}!`)
+          console.log(`Player ${player} is trying to play letters ${letters} in game: ${gameId}!`)
 
           // send out an update with the updated game as defined by the transform function
           game = await getGame(gameId) // grab the game
@@ -197,61 +194,64 @@ function transformGame(msg, game) {
   var playerTable = game.players
   var bag = game.bag
 
-  // FIXME change to switch statement
-  if (msg.type === 'play') {
-    var player = msg.player
-    var letter = msg.letter
-    var hand = getHand(playerTable, player)
+  switch (msg.type) {
+    case 'play':
+      var player = msg.player
+      var letters = msg.letters
+      var hand = getHand(playerTable, player)
 
-    // check that the letter being played is in the player's hand
-    // and remove it from the hand
-    if (hand.includes(letter)) {
-      listRemove(hand, letter)
-    } else {
-      console.log('Letter played wasn\'t in the hand! Not changing anything')
-      // ERROR, letter wasn't in hand!
-    }
-    return game
-    // replace it in the hand with a new letter from the bag
-  } else if (msg.type === 'draw') {
-    var player = msg.player
-    var hand = getHand(playerTable, player)
-    // check that the player's hand isn't too big
-    if (hand.length === HAND_SIZE) {
-      console.log('Hand was too big, so you can\'t draw!')
-      // ERROR, hand limit reached
-    } else if (bag.length === 0) {
-      console.log('No tiles left in bag, so you can\'t draw!')
-      // ERROR, bag empty
-    } else {
-      const choice = get_random(bag)
-      listRemove(bag, choice)
-      hand.push(choice)
-    }
-    // because I've mutated the hand data I don't have to recreate the game object, I just return it!
-    return game
-  } else if (msg.type === 'changeName') {
-    var player = msg.player
-    var newName = msg.newName
-
-    // build up a new player table, same order, same hands, but replacing player's name with new name
-    const newPlayerTable = []
-    for (const [playerName, hand] of playerTable) {
-      if (playerName === player) {
-        newPlayerTable.push([newName, hand])
-      } else {
-        newPlayerTable.push([playerName, hand])
+      // check that the letter being played is in the player's hand
+      // and remove it from the hand
+      for (const letter of letters) {
+        if (hand.includes(letter)) {
+          listRemove(hand, letter)
+        } else {
+          console.log('Letter played wasn\'t in the hand! Not changing anything')
+          // ERROR, letter wasn't in hand!
+        }
       }
-    }
-    game.players = newPlayerTable
-    return game
+      return game
+      break
+    case 'draw':
+      var player = msg.player
+      var hand = getHand(playerTable, player)
+      // check that the player's hand isn't too big
+      if (hand.length === HAND_SIZE) {
+        console.log('Hand was too big, so you can\'t draw!')
+        // ERROR, hand limit reached
+      } else if (bag.length === 0) {
+        console.log('No tiles left in bag, so you can\'t draw!')
+        // ERROR, bag empty
+      } else {
+        const choice = get_random(bag)
+        listRemove(bag, choice)
+        hand.push(choice)
+      }
+      // because I've mutated the hand data I don't have to recreate the game object, I just return it!
+      return game
+      break
+    case 'changeName':
+      var player = msg.player
+      var newName = msg.newName
 
-  } else {
-    // ERROR, msg wasn't play or draw!
-    // don't change anything
-    console.log('message ', msg, ' wasn\'t play or draw, can\'t transform a game with it!')
-    return game // don't change anything
-  }
+      // build up a new player table, same order, same hands, but replacing player's name with new name
+      const newPlayerTable = []
+      for (const [playerName, hand] of playerTable) {
+        if (playerName === player) {
+          newPlayerTable.push([newName, hand])
+        } else {
+          newPlayerTable.push([playerName, hand])
+        }
+      }
+      game.players = newPlayerTable
+      return game
+
+    default:
+      // ERROR, msg wasn't recognized!
+      // don't change anything
+      console.log('message ', msg, ' wasn\'t recognized, can\'t transform a game with it!')
+      return game // don't change anything
+    }
 }
 
 function sendUpdate(ws, game) {
