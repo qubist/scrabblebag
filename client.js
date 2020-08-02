@@ -9,11 +9,12 @@ socket.onmessage = function (event) {
   switch(msg.type) {
     case 'update':
       game = msg.game
-      // update game board with new game info
+      // update page with new game info
       renderBag(game)
       renderNames(game)
       renderHands(game)
       hidePlayers(game.numPlayers)
+      renderButtons(game)
       // FIXME: there's a Flicker Of Unupdated Content because of this code
       break
     case 'newGameResponse':
@@ -95,19 +96,11 @@ function sendJoin(gameId) {
   socket.send(JSON.stringify(joinObject))
 }
 
-// send a play object of a letter by a player
-// takes only letter and play but sends object containing game ID
-function sendPlay(letter, player) {
-  letter = letter.toUpperCase()
-  var playObject = { type: 'play', letter: letter, player: player, id: window.location.pathname.substring(1) }
+// send a play object of an array of letters by a player
+// takes only letters and play but sends object containing game ID
+function sendPlay(letters, player) {
+  var playObject = { type: 'play', letters: letters, player: player, id: window.location.pathname.substring(1) }
   socket.send(JSON.stringify(playObject))
-}
-
-// sends multiple plays for each letter in an array
-function playMultiple(letterList, player) {
-  for (const letter of letterList) {
-    sendPlay(letter, player)
-  }
 }
 
 // takes only play but sends object containing game ID
@@ -186,14 +179,67 @@ function renderNames(game) {
   }
 }
 
+function renderButtons(game) {
+  // render all buttons except play buttons
+  const actionButtons = document.getElementsByClassName('action-button')
+  for (const actionButton of actionButtons) {
+    // all buttons start as disabled, undisabled them
+    actionButton.disabled = false
+    // make Play button grey out when there's nothing selected
+    // & make Draw button grey out when there's no tiles left in the bag
+    const playerName = actionButton.parentElement.previousElementSibling.textContent // get player name
+    const hand = getHand(game.players, playerName) // get player hand
+    switch (actionButton.value) {
+      case 'Play':
+        // handled in the renderPlayButtons() function so it can be called
+        // without game parameter
+        break
+      case 'Draw':
+        // grey out if no tiles left or hand full
+        actionButton.disabled = (hand.length === 7 || game.bag.length === 0)
+        break
+      case 'Change name':
+        // always show :,)
+        break
+      default:
+        console.log(`ERR: Some other button called ${actionButton.value} is here for some reason!`)
+    }
+  }
+  // then render play buttos
+  renderPlayButtons()
+
+}
+
+function renderPlayButtons() {
+  const actionButtons = document.getElementsByClassName('action-button')
+  for (const actionButton of actionButtons) {
+    if (actionButton.value === 'Play') {
+      const playerName = actionButton.parentElement.previousElementSibling.textContent // get player name
+      actionButton.disabled = false
+      const handE = document.getElementById(playerNameToHandId(playerName))
+      // count tiles in hand that are selected
+      var numSelected = 0
+      for (const tile of handE.children) {
+        if (tile.className.split(/\s+/).includes('selected')) {
+          numSelected += 1
+        }
+      }
+      actionButton.disabled = (numSelected === 0)
+    }
+  }
+
+}
+
 // set a tile in a hand as selected
 function setSelected(id) {
   document.getElementById(id).classList.toggle('selected')
+  renderPlayButtons()
 }
 
 function clearSelected(playerName) {
   for (const child of document.getElementById(playerNameToHandId(playerName)).children) {
     child.classList.remove('selected')
+    renderPlayButtons()
   }
 }
 
@@ -215,7 +261,7 @@ function getHand(playerTable, player) {
       return hand
     }
   }
-  console.log("ERR: requested player wasn't in player table")
+  console.log('ERR: requested player wasn\'t in player table')
 }
 
 // player is player name as a string: needs to be converted to element-id format.
@@ -229,7 +275,7 @@ function renderHand(game, playerName) {
   // clear all the tile labels and show them all
   for (const tile of tiles) { // i miss python <3
     tile.textContent = ''
-    tile.style.display = "block"
+    tile.style.display = 'block'
   }
 
   // put each letter in the hand onto a tile
@@ -255,10 +301,10 @@ function playerNameToHandId(name) {
 
 // use this later to show the score of the tiles so they look realistic
 function letterScore(letter) {
-  return {" ":"","A":"1","B":"3","C":"3","D":"2","E":"1","F":"4","G":"2",
-  "H":"4","I":"1","J":"8","K":"5","L":"1","M":"3","N":"1","O":"1","P":"3",
-  "Q":"10", "R":"1","S":"1","T":"1","U":"1","V":"4","W":"4","X":"8","Y":"4",
-  "Z":"1"}[letter]
+  return {' ':'','A':'1','B':'3','C':'3','D':'2','E':'1','F':'4','G':'2',
+  'H':'4','I':'1','J':'8','K':'5','L':'1','M':'3','N':'1','O':'1','P':'3',
+  'Q':'10', 'R':'1','S':'1','T':'1','U':'1','V':'4','W':'4','X':'8','Y':'4',
+  'Z':'1'}[letter]
 }
 
 // hides sections of the page to only show number of players specified
@@ -276,11 +322,11 @@ function hidePlayers(numPlayers) {
       // keep it empty
       break
     default:
-      console.log("Some kinda error. Ya can't have 1 or more than 4 players..")
+      console.log('Some kinda error. Ya can\'t have 1 or more than 4 players..')
   }
   for (const className of toHide) {
     for (const element of document.getElementsByClassName(className)) {
-      element.style.display = "none"
+      element.style.display = 'none'
     }
   }
 }
