@@ -196,7 +196,7 @@ function renderButtons(game) {
         break
       case 'Draw':
         // grey out if no tiles left or hand full
-        actionButton.disabled = (hand.length === 7 || bag.length === 0)
+        actionButton.disabled = (hand.length === 7 || game.bag.length === 0)
         break
       case 'Change name':
         // always show :,)
