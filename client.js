@@ -188,7 +188,9 @@ function renderNames(game) {
 }
 
 function renderButtons(game) {
-  // show the buttons
+  // render the play buttons
+  renderPlayButtons()
+  // then do all the other ones
   const actionButtons = document.getElementsByClassName('action-button')
   for (const actionButton of actionButtons) {
     // all buttons start as disabled, undisabled them
@@ -199,21 +201,15 @@ function renderButtons(game) {
     const hand = getHand(game.players, playerName) // get player hand
     switch (actionButton.value) {
       case 'Play':
-        // grey out if there's nothing selected
-        const handE = document.getElementById(playerNameToHandId(playerName))
-        var numSelected = 0
-        for (const tile of handE.children) {
-          if (tile.className.split(/\s+/).includes('selected')) {
-            numSelected += 1
-          }
-        }
-        actionButton.disabled = (numSelected === 0)
+        // handled in the renderPlayButtons() function so it can be called
+        // without game parameter
         break
       case 'Draw':
         // grey out if no tiles left or hand full
         actionButton.disabled = (hand.length === 7 || bag.length === 0)
         break
       case 'Change name':
+        // always show :,)
         break
       default:
         console.log(`ERR: Some other button called ${actionButton.value} is here for some reason!`)
@@ -221,16 +217,36 @@ function renderButtons(game) {
   }
 }
 
+function renderPlayButtons() {
+  const playerName = actionButton.parentElement.previousElementSibling.textContent // get player name
+  const actionButtons = document.getElementsByClassName('action-button')
+  for (const actionButton of actionButtons) {
+    if (actionButton.value === 'Play') {
+      actionButton.disabled = false
+      const handE = document.getElementById(playerNameToHandId(playerName))
+      // count tiles in hand that are selected
+      var numSelected = 0
+      for (const tile of handE.children) {
+        if (tile.className.split(/\s+/).includes('selected')) {
+          numSelected += 1
+        }
+      }
+      actionButton.disabled = (numSelected === 0)
+    }
+  }
+
+}
+
 // set a tile in a hand as selected
 function setSelected(id) {
   document.getElementById(id).classList.toggle('selected')
-  renderButtons()
+  renderPlayButtons()
 }
 
 function clearSelected(playerName) {
   for (const child of document.getElementById(playerNameToHandId(playerName)).children) {
     child.classList.remove('selected')
-    renderButtons()
+    renderPlayButtons()
   }
 }
 
