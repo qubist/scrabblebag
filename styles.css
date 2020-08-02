@@ -56,8 +56,17 @@ body {
   text-align: center;
   padding: 8px 0;
   cursor: pointer;
+  display: none;
 }
 
 .selected {
   outline: 3px solid rgba(255, 0, 0, 0.8);
+}
+
+.name-change-button {
+  margin-lef: 35px;
+}
+
+.player-button {
+  font-weight: bold;
 }

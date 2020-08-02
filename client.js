@@ -11,10 +11,11 @@ socket.onmessage = function (event) {
       game = msg.game
       // update game board with new game info
       renderBag(game)
+      renderNames(game)
       renderHands(game)
       hidePlayers(game.numPlayers)
       // FIXME: there's a Flicker Of Unupdated Content because of this code
-      break;
+      break
     case 'newGameResponse':
       id = msg.id
       // reload the page to the new game's url
@@ -26,7 +27,7 @@ socket.onmessage = function (event) {
 // helper function to check if a string contains only uppercase letters
 // from: https://stackoverflow.com/questions/4434076
 function isALPHA(str) {
-  var code, i, len;
+  var code, i, len
   for (i = 0, len = str.length; i < len; i++) {
     code = str.charCodeAt(i)
     if (!(code > 64 && code < 91)) { // upper alpha (A-Z)
@@ -37,7 +38,7 @@ function isALPHA(str) {
 }
 
 function isAlpha(str) {
-  var code, i, len;
+  var code, i, len
   for (i = 0, len = str.length; i < len; i++) {
     code = str.charCodeAt(i)
     if ((!(code > 64 && code < 91)) &&
@@ -50,7 +51,7 @@ function isAlpha(str) {
 
 // helper function to detect if there are any lowercase letters in a string
 function hasLower(str) {
-  var code, i, len;
+  var code, i, len
   for (i = 0, len = str.length; i < len; i++) {
     code = str.charCodeAt(i)
     if (code > 96 && code < 123) { // lower alpha (a-z)
@@ -115,16 +116,38 @@ function sendDraw(player) {
   socket.send(JSON.stringify(drawObject))
 }
 
-function sendReset() {
-  var resetObject = { type: 'reset' }
-  socket.send(JSON.stringify(resetObject))
+// { type: 'changeName',
+//   player: (str) the player whose name is being changed,
+//   newName: (str) the new name }
+//
+// Example - { type: 'changeName', player: 'Player 1', newName: 'X Æ A-Xii'}
+function sendChangeName(player, newName) {
+  var changeNameObject = { type: 'changeName', player: player, newName: newName}
+  socket.send(JSON.stringify(changeNameObject))
+}
+
+function changeName(player, newName) {
+
+  console.log(`trying to change name of ${player} to ${newName}`)
+  // Do nothing if:
+  //   - they clicked cancel
+  //   - new name is same as old name
+  //   - new name is blank
+  //   - new name has a _ in it (not allowed)
+  if (newName != null &&
+      newName !== player &&
+      newName !== '' &&
+      !(newName.includes('_'))) {
+    sendChangeName(player, newName)
+  } else {
+    console.log('Prompt was cancelled or had invalid name (same as old name, blank, or contained underscore)')
+  }
 }
 
 function renderBag(game) {
   // bag element of the webpage
   bagE = document.getElementById('bag')
 
-  // console.log(game.bag)
   var result = ''
   game.bag.forEach((tile, i) => {
     result = result + tile + ', '
@@ -139,9 +162,27 @@ function renderBag(game) {
 
 function renderHands(game) {
   // iterate through dictionary of players and render each one's hand
-  for (const [name, hand] of Object.entries(game.players)) {
-    console.log('writing hand:', name, hand)
+  for (const [name, hand] of game.players) {
+    console.log('rendering hand:', name, hand)
     renderHand(game, name)
+  }
+}
+
+function renderNames(game) {
+  const playerButtons = document.getElementsByClassName('player-button')
+  // change HTMLcollection into array so we can use .entries() to enumerate it
+  const playerButtonsArray = [...playerButtons]
+  // get list of names from game object
+  const names = game.players.map(player => player[0])
+  for (const [i, playerButton] of playerButtonsArray.entries()) {
+    // make sure the id of the hand element matches the name in the game object (this is for name changes)
+    const oldName = playerButton.textContent
+    const newName = names[i]
+    if (oldName !== newName) {
+      document.getElementById(playerNameToHandId(oldName)).id = playerNameToHandId(newName)
+    }
+    // change the text content of the player button to the new name
+    playerButton.textContent = newName
   }
 }
 
@@ -167,6 +208,16 @@ function getSelected(playerName) {
   return result
 }
 
+// returns the hand of the specified player from the specified playerTable
+function getHand(playerTable, player) {
+  for (const [playerName, hand] of playerTable) {
+    if (playerName === player) {
+      return hand
+    }
+  }
+  console.log("ERR: requested player wasn't in player table")
+}
+
 // player is player name as a string: needs to be converted to element-id format.
 function renderHand(game, playerName) {
   const handElementId = playerNameToHandId(playerName)
@@ -182,7 +233,7 @@ function renderHand(game, playerName) {
   }
 
   // put each letter in the hand onto a tile
-  const hand = game.players[playerName]
+  const hand = getHand(game.players, playerName)
   // hand.forEach((letter, i) => {
   for (const [i, letter] of hand.entries()) {
     handE.children[i].textContent = letter
@@ -200,6 +251,14 @@ function renderHand(game, playerName) {
 
 function playerNameToHandId(name) {
   return name.replace(' ', '_') + '-hand'
+}
+
+// use this later to show the score of the tiles so they look realistic
+function letterScore(letter) {
+  return {" ":"","A":"1","B":"3","C":"3","D":"2","E":"1","F":"4","G":"2",
+  "H":"4","I":"1","J":"8","K":"5","L":"1","M":"3","N":"1","O":"1","P":"3",
+  "Q":"10", "R":"1","S":"1","T":"1","U":"1","V":"4","W":"4","X":"8","Y":"4",
+  "Z":"1"}[letter]
 }
 
 // hides sections of the page to only show number of players specified
@@ -222,7 +281,6 @@ function hidePlayers(numPlayers) {
   for (const className of toHide) {
     for (const element of document.getElementsByClassName(className)) {
       element.style.display = "none"
-      // console.log(`hiding ${className}`)
     }
   }
 }

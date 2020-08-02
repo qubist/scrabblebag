@@ -11,16 +11,16 @@
   <body>
     <h1>Scrabblebag</h1>
 
-    <button type="button" class="collapsible-confirm" id="bag-button">Bag</button>
+    <button class="collapsible-confirm" id="bag-button">Bag</button>
     <div class="content">
       <span id="bag"></span>
     </div>
 
 
-    <button id="button-P1" type="button" class="collapsible P1">Player 1</button>
+    <button id="button-P1" class="collapsible player-button P1"></button>
     <div class="content P1">
-      <div id="Player_1-hand" class="hand grid-container">
-          <div id="hand-0-P1" class="grid-item" onclick="setSelected('hand-0-P1')">A</div>
+      <div id="-hand" class="hand grid-container">
+          <div id="hand-0-P1" class="grid-item" onclick="setSelected('hand-0-P1')"></div>
           <div id="hand-1-P1" class="grid-item" onclick="setSelected('hand-1-P1')"></div>
           <div id="hand-2-P1" class="grid-item" onclick="setSelected('hand-2-P1')"></div>
           <div id="hand-3-P1" class="grid-item" onclick="setSelected('hand-3-P1')"></div>
@@ -38,13 +38,18 @@
         var player = document.getElementById('button-P1').textContent
         sendDraw(player)
       ">
+      <input type="button" class="name-change-button" value="Change name" onclick="
+        var player = document.getElementById('button-P1').textContent
+        const newName = prompt('Enter a new name', player)
+        changeName(player, newName) // logic in the main file
+        ">
     </div>
 
 
-    <button id="button-P2" type="button" class="collapsible P2">Player 2</button>
+    <button id="button-P2" class="collapsible player-button P2"></button>
     <div class="content P2">
-      <div id="Player_2-hand" class="hand grid-container">
-          <div id="hand-0-P2" class="grid-item" onclick="setSelected('hand-0-P2')">A</div>
+      <div id="-hand" class="hand grid-container">
+          <div id="hand-0-P2" class="grid-item" onclick="setSelected('hand-0-P2')"></div>
           <div id="hand-1-P2" class="grid-item" onclick="setSelected('hand-1-P2')"></div>
           <div id="hand-2-P2" class="grid-item" onclick="setSelected('hand-2-P2')"></div>
           <div id="hand-3-P2" class="grid-item" onclick="setSelected('hand-3-P2')"></div>
@@ -62,13 +67,18 @@
         var player = document.getElementById('button-P2').textContent
         sendDraw(player)
       ">
+      <input type="button" class="name-change-button" value="Change name" onclick="
+        var player = document.getElementById('button-P2').textContent
+        const newName = prompt('Enter a new name', player)
+        changeName(player, newName) // logic in the main file
+        ">
     </div>
 
 
-    <button id="button-P3" type="button" class="collapsible P3">Player 3</button>
+    <button id="button-P3" class="collapsible player-button P3"></button>
     <div class="content P3">
-      <div id="Player_3-hand" class="hand grid-container">
-          <div id="hand-0-P3" class="grid-item" onclick="setSelected('hand-0-P3')">A</div>
+      <div id="-hand" class="hand grid-container">
+          <div id="hand-0-P3" class="grid-item" onclick="setSelected('hand-0-P3')"></div>
           <div id="hand-1-P3" class="grid-item" onclick="setSelected('hand-1-P3')"></div>
           <div id="hand-2-P3" class="grid-item" onclick="setSelected('hand-2-P3')"></div>
           <div id="hand-3-P3" class="grid-item" onclick="setSelected('hand-3-P3')"></div>
@@ -86,13 +96,18 @@
         var player = document.getElementById('button-P3').textContent
         sendDraw(player)
       ">
+      <input type="button" class="name-change-button" value="Change name" onclick="
+        var player = document.getElementById('button-P3').textContent
+        const newName = prompt('Enter a new name', player)
+        changeName(player, newName) // logic in the main file
+        ">
     </div>
 
 
-    <button id="button-P4" type="button" class="collapsible P4">Player 4</button>
+    <button id="button-P4" class="collapsible player-button P4"></button>
     <div class="content P4">
-      <div id="Player_4-hand" class="hand grid-container">
-          <div id="hand-0-P4" class="grid-item" onclick="setSelected('hand-0-P4')">A</div>
+      <div id="-hand" class="hand grid-container">
+          <div id="hand-0-P4" class="grid-item" onclick="setSelected('hand-0-P4')"></div>
           <div id="hand-1-P4" class="grid-item" onclick="setSelected('hand-1-P4')"></div>
           <div id="hand-2-P4" class="grid-item" onclick="setSelected('hand-2-P4')"></div>
           <div id="hand-3-P4" class="grid-item" onclick="setSelected('hand-3-P4')"></div>
@@ -110,6 +125,11 @@
         var player = document.getElementById('button-P4').textContent
         sendDraw(player)
       ">
+      <input type="button" class="name-change-button" value="Change name" onclick="
+        var player = document.getElementById('button-P4').textContent
+        const newName = prompt('Enter a new name', player)
+        changeName(player, newName) // logic in the main file
+        ">
     </div>
 
 
@@ -124,19 +144,19 @@
     for (i = 0; i < coll.length; i++) {
       coll[i].addEventListener("click", function() {
         this.classList.toggle("active")
-        var content = this.nextElementSibling;
+        var content = this.nextElementSibling
         // toggle visibility of content
         if (content.style.display === "block") {
-          content.style.display = "none";
+          content.style.display = "none"
         } else {
-          content.style.display = "block";
+          content.style.display = "block"
         }
       })
     }
     var collConf = document.getElementsByClassName("collapsible-confirm")
     for (i = 0; i < collConf.length; i++) {
       collConf[i].addEventListener("click", function() {
-        var content = this.nextElementSibling;
+        var content = this.nextElementSibling
         // show content if confirmed, or hide
         if (content.style.display === "block") {
           content.style.display = "none" // hide all the time
@@ -149,8 +169,6 @@
         }
       })
     }
-
-    // hide all the
 
   </script>
 
