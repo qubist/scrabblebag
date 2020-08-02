@@ -152,6 +152,7 @@ function newBag() {
 // of the same game in the gameStates dictionary.
 // If there wasn't an old version, saves it.
 async function saveGame(game) {
+  console.log('Game was saved!!!!!!')
   var gameId = game.id
   await storage.setItem(gameId,game)
 }
