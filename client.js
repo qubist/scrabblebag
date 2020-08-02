@@ -307,7 +307,7 @@ function hidePlayers(numPlayers) {
       // keep it empty
       break
     default:
-      console.log('Some kinda error. Ya can't have 1 or more than 4 players..')
+      console.log('Some kinda error. Ya can\'t have 1 or more than 4 players..')
   }
   for (const className of toHide) {
     for (const element of document.getElementsByClassName(className)) {
