@@ -191,28 +191,32 @@ function renderButtons(game) {
   // show the buttons
   const actionButtons = document.getElementsByClassName('action-button')
   for (const actionButton of actionButtons) {
-    // show the button, because they start off hidden
-    actionButton.style.display = 'block'
-
     // make Play button grey out when there's nothing selected
     // & make Draw button grey out when there's no tiles left in the bag
     const playerName = actionButton.parentElement.previousElementSibling.textContent // get player name
     const hand = getHand(game.players, playerName) // get player hand
-    switch (actionButton.textContent) {
+    console.log("playerName: ", playerName)
+    console.log("hand: ", hand)
+    console.log("content: ", actionButton.value)
+    switch (actionButton.value) {
       case 'Play':
         // grey out if there's nothing selected
         break
       case 'Draw':
+        console.log('lookin at a draw button')
         // grey out if no tiles left or hand full
         // if (hand.length === 7 || bag.length === 0) {
         //   actionButton.disabled = true
         // } else {
         //   actionButton.disabled = false
         // }
-        actionButton.disable = (hand.length === 7 || bag.length === 0)
+        console.log((hand.length === 7 || bag.length === 0))
+        actionButton.disabled = (hand.length === 7 || bag.length === 0)
         break
       case 'Change name':
         break
+      default:
+        console.log(`ERR: Some other button called ${actionButton.value} is here for some reason!`)
     }
   }
 }
