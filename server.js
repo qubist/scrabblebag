@@ -34,7 +34,7 @@ async function run() {
           // because of the newGameRequest/Response system, this will only be sent by the system for a game that already exists.
           // Unless someone just typed in a valid 9 letter word in the URL. So we have to check that the game exists and if it doesn't, do nothing.
           gameId = msg.id
-          if (!(await storage.keys().includes(gameId))) {
+          if (!((await storage.keys()).includes(gameId))) {
             console.log('Someone is trying to join a game that does not exist!')
             // redirect to a page that says no game exists?
             // hide everything?
