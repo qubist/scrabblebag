@@ -80,7 +80,7 @@ async function run() {
           // Incoming new game request!
           console.log(`Someone requested a new game for ${msg.numPlayers} players!`)
           // create a new game
-          game = newGame(msg.numPlayers)
+          game = await newGame(msg.numPlayers)
           // save game in store
           saveGame(game)
           // send the game ID to the client's webpage to be reloaded to so they can join it
@@ -130,8 +130,16 @@ function makeGame(id, playerTable, numPlayers, bag) {
   return { type: 'game', id: id, players: playerTable, numPlayers: numPlayers, bag: bag }
 }
 
-function newGame(numPlayers) {
-  const gameId = get_random(nineLetterWords)
+async function newGame(numPlayers) {
+  var gameId = get_random(nineLetterWords)
+  while ( (await storage.keys()).includes(gameId) ) {
+    // if the ID is already in use, try again and check that we haven't run out of IDs
+    // this code should almost never run :}
+    gameId = get_random(nineLetterWords)
+    if ( (await storage.keys()).length >= nineLetterWords.length ) {
+      console.error();('ERR: out of game IDs!')
+    }
+  }
   console.log('Making a game with random ID: ', gameId)
   // playerTable is four [name, hand] arrays
   return makeGame(gameId, [['Player 1', []], ['Player 2', []], ['Player 3', []], ['Player 4', []]], numPlayers, newBag())
@@ -146,7 +154,7 @@ function newBag() {
 
 // saves game in store
 async function saveGame(game) {
-  console.log('Game was saved!!!!!!')
+  console.log('Game was saved!')
   var gameId = game.id
   await storage.setItem(gameId,game)
 }
