@@ -6,124 +6,125 @@ const wordsfile = require('./words9')
 const nineLetterWords = wordsfile.nineLetterWords
 
 const WebSocket = require('ws')
-
 const wss = new WebSocket.Server({ port: 8080 })
+
+const storage = require('node-persist')
 
 const HAND_SIZE = 7
 
 // hash of gameId : connection-list pairs
 var connections = {}
 
-// hash of gameId : game pairs
-var gameStates = {}
+async function run() {
+  await storage.init()
+  console.log('Storage set up!')
+  wss.on('connection', ws => {
+    console.log('Incoming connection!')
+    // console.log(`Incoming connection: ${JSON.stringify(ws)}`)
 
-wss.on('connection', ws => {
-  console.log('Incoming connection!')
-  // console.log(`Incoming connection: ${JSON.stringify(ws)}`)
+    ws.on('message', async message => { // this anonymous function needs to be async so getGame and saveGame inside it can work
+      var msg = JSON.parse(message)
+      console.log(`Recived message => ${message}`) // log text of the message
+      var game
+      var updatedGame
+      switch(msg.type) {
+        case 'join':
+          // Incoming join. Enroll the user to recieve updates about the game.
 
-  ws.on('message', message => {
-    var msg = JSON.parse(message)
-    console.log(`Recived message => ${message}`) // log text of the message
-    var game
-    var updatedGame
-    switch(msg.type) {
-      case 'join':
-        // Incoming join. Enroll the user to recieve updates about the game.
+          // because of the newGameRequest/Response system, this will only be sent by the system for a game that already exists.
+          // Unless someone just typed in a valid 9 letter word in the URL. So we have to check that the game exists and if it doesn't, do nothing.
+          gameId = msg.id
+          if (!((await storage.keys()).includes(gameId))) {
+            console.log('Someone is trying to join a game that does not exist!')
+            // redirect to a page that says no game exists?
+            // hide everything?
+            // send back something that says there's an error?
+            // FIXME
+            break
+          }
+          // add this connection to the list of people to update for the game it connected to
+          // if the game has no connection list, make it
+          if (!connections[gameId]) {
+            connections[gameId] = []
+          }
+          // push this connection onto this game's connection list
+          connections[gameId].push(ws)
+          console.log(`Someone joined game ${gameId}!`)
+          console.log('Connections: ', connections)
 
-        // because of the newGameRequest/Response system, this will only be sent by the system for a game that already exists.
-        // Unless someone just typed in a valid 9 letter word in the URL. So we have to check that the game exists and if it doesn't, do nothing.
-        gameId = msg.id
-        if (!(gameId in gameStates)) {
-          console.log('Someone is trying to join a game that does not exist!')
-          // redirect to a page that says no game exists?
-          // hide everything?
-          // send back something that says there's an error?
-          // FIXME
+          sendUpdateToAll(await getGame(gameId)) // send out an update to everyone in this game
           break
-        }
-        // add this connection to the list of people to update for the game it connected to
-        // if the game has no connection list, make it
-        if (!connections[gameId]) {
-          connections[gameId] = []
-        }
-        // push this connection onto this game's connection list
-        connections[gameId].push(ws)
-        console.log(`Someone joined game ${gameId}!`)
-        console.log('Connections: ', connections)
+        case 'play':
+          letter = msg.letter // get the letter that was played
+          player = msg.player
+          gameId = msg.id
+          console.log(`Player ${player} is trying to play letter ${letter} in game: ${gameId}!`)
 
-        sendUpdateToAll(getGame(gameId)) // send out an update to everyone in this game
-        break
-      case 'play':
-        letter = msg.letter // get the letter that was played
-        player = msg.player
-        gameId = msg.id
-        console.log(`Player ${player} is trying to play letter ${letter} in game: ${gameId}!`)
-
-        // send out an update with the updated game as defined by the transform function
-        game = getGame(gameId) // grab the game
-        updatedGame = transformGame(msg, game) // apply the move to it
-        sendUpdateToAll(updatedGame) // send out update with transformed game
-        saveGame(updatedGame) // save transformed game
-        break
-      case 'draw':
-        console.log('msg: ', msg)
-        player = msg.player
-        gameId = msg.id
-        console.log(`Player ${player} is trying to draw in game: ${gameId}!`)
-        game = getGame(gameId)
-        updatedGame = transformGame(msg, game) // apply the draw to the game
-        sendUpdateToAll(updatedGame)
-        saveGame(updatedGame)
-        break
-      case 'newGameRequest':
-        // Incoming new game request!
-        console.log(`Someone requested a new game for ${msg.numPlayers} players!`)
-        // create a new game
-        game = newGame(msg.numPlayers)
-        const id = game.id
-        // store game in games dictionary to link it with its ID
-        gameStates[id] = game
-        // send the game ID to the client's webpage to be reloaded to so they can join it
-        sendNewGameResponse(ws, id)
-        break
-      case 'changeName':
-        // Incoming name change!
-        player = msg.player
-        newName = msg.newName
-        console.log(`${player} is trying to change their name to ${newName}! More power to 'em!`)
-
-        game = getGame(gameId)
-        const currentNames = game.players.map(player => player[0]) // first item of every player-hand array
-
-        // check that newName is not already a used name
-        if (currentNames.includes(newName)) {
-          // newName was already taken, try again!
-          // don't change anything
+          // send out an update with the updated game as defined by the transform function
+          game = await getGame(gameId) // grab the game
+          updatedGame = transformGame(msg, game) // apply the move to it
+          sendUpdateToAll(updatedGame) // send out update with transformed game
+          await saveGame(updatedGame) // save transformed game
           break
-        }
+        case 'draw':
+          console.log('msg: ', msg)
+          player = msg.player
+          gameId = msg.id
+          console.log(`Player ${player} is trying to draw in game: ${gameId}!`)
+          game = await getGame(gameId)
+          updatedGame = transformGame(msg, game) // apply the draw to the game
+          sendUpdateToAll(updatedGame)
+          await saveGame(updatedGame)
+          break
+        case 'newGameRequest':
+          // Incoming new game request!
+          console.log(`Someone requested a new game for ${msg.numPlayers} players!`)
+          // create a new game
+          game = newGame(msg.numPlayers)
+          // save game in store
+          saveGame(game)
+          // send the game ID to the client's webpage to be reloaded to so they can join it
+          sendNewGameResponse(ws, game.id)
+          break
+        case 'changeName':
+          // Incoming name change!
+          player = msg.player
+          newName = msg.newName
+          console.log(`${player} is trying to change their name to ${newName}! More power to 'em!`)
 
-        // update the game object
-        game = getGame(gameId)
-        updatedGame = transformGame(msg, game) // apply name change to the game
-        sendUpdateToAll(updatedGame)
-        saveGame(updatedGame)
-        break
-    }
-  })
-  // remove connection from connections hash when connection is closed
-  ws.on('close', () => {
-    console.log('Someone left, removing them from any games they were connected to')
+          game = await getGame(gameId)
+          const currentNames = game.players.map(player => player[0]) // first item of every player-hand array
 
-    // walk through every connection list for every game
-    Object.keys(connections).forEach((gameId, i) => {
-      // remove this connection from each one
-      console.log('Removing ws from connections to game: ', gameId)
-      listRemove(connections[gameId], ws)
-      // if it wasn't in there, nothing will change
+          // check that newName is not already a used name
+          if (currentNames.includes(newName)) {
+            // newName was already taken, try again!
+            // don't change anything
+            break
+          }
+
+          // update the game object
+          game = await getGame(gameId)
+          updatedGame = transformGame(msg, game) // apply name change to the game
+          sendUpdateToAll(updatedGame)
+          await saveGame(updatedGame)
+          break
+      }
     })
-    console.log('Connections: ', connections)
+    // remove connection from connections hash when connection is closed
+    ws.on('close', () => {
+      console.log('Someone left, removing them from any games they were connected to')
+
+      // walk through every connection list for every game
+      Object.keys(connections).forEach((gameId, i) => {
+        // remove this connection from each one
+        console.log('Removing ws from connections to game: ', gameId)
+        listRemove(connections[gameId], ws)
+        // if it wasn't in there, nothing will change
+      })
+      console.log('Connections: ', connections)
+    })
   })
-})
+}
 
 function makeGame(id, playerTable, numPlayers, bag) {
   return { type: 'game', id: id, players: playerTable, numPlayers: numPlayers, bag: bag }
@@ -141,18 +142,20 @@ function newBag() {
   return [...scrabbleLetters]
 }
 
+// node-persist API: https://www.npmjs.com/package/node-persist#api-documentation
 
-// takes a game, looks up its ID, and writes it over the old version
-// of the same game in the gameStates dictionary.
-// If there wasn't an old version, saves it.
-function saveGame(game) {
+// saves game in store
+async function saveGame(game) {
+  console.log('Game was saved!!!!!!')
   var gameId = game.id
-  gameStates[gameId] = game
+  await storage.setItem(gameId,game)
 }
 
 // takes a game ID and returns the corresponding game
-function getGame(gameId) {
-  return gameStates[gameId]
+async function getGame(gameId) {
+  console.log(`Getting game ${gameId} with async function call to storage.getItem!`)
+  console.log(`Result was: ${await storage.getItem(gameId)}`)
+  return await storage.getItem(gameId)
 }
 
 // from: https://stackoverflow.com/questions/5915096
@@ -254,9 +257,11 @@ function sendNewGameResponse(ws, id) {
 
 // takes a game and uses the connections list to send an update to each ws in the connection list for that game
 function sendUpdateToAll(game) {
-  console.log(`Currently active games: ${Object.keys(gameStates)}`)
   var connectionsList = connections[game.id]
+  console.log(connections)
   connectionsList.forEach((connection, i) => {
     sendUpdate(connection, game)
   })
 }
+
+run()
