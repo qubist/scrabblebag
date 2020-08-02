@@ -19,7 +19,7 @@ var connections = {}
 var gameStates = {}
 
 async function run() {
-  await storage.init()
+  await storage.init({dir: '.'})
   wss.on('connection', ws => {
     console.log('Incoming connection!')
     // console.log(`Incoming connection: ${JSON.stringify(ws)}`)
