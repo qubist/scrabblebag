@@ -67,6 +67,10 @@ body {
   margin-lef: 35px;
 }
 
+.action-button {
+  display: none;
+}
+
 .player-button {
   font-weight: bold;
 }
@@ -74,4 +78,3 @@ body {
 .tile-color {
   background-color: #CAA274
 }
-
