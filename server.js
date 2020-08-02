@@ -15,9 +15,6 @@ const HAND_SIZE = 7
 // hash of gameId : connection-list pairs
 var connections = {}
 
-// hash of gameId : game object pairs
-var gameStates = {}
-
 async function run() {
   await storage.init()
   console.log('Storage set up!')
@@ -37,7 +34,7 @@ async function run() {
           // because of the newGameRequest/Response system, this will only be sent by the system for a game that already exists.
           // Unless someone just typed in a valid 9 letter word in the URL. So we have to check that the game exists and if it doesn't, do nothing.
           gameId = msg.id
-          if (!(gameId in gameStates)) {
+          if (!(await storage.keys().includes(gameId))) {
             console.log('Someone is trying to join a game that does not exist!')
             // redirect to a page that says no game exists?
             // hide everything?
@@ -84,11 +81,10 @@ async function run() {
           console.log(`Someone requested a new game for ${msg.numPlayers} players!`)
           // create a new game
           game = newGame(msg.numPlayers)
-          const id = game.id
-          // store game in games dictionary to link it with its ID
-          gameStates[id] = game
+          // save game in store
+          saveGame(game)
           // send the game ID to the client's webpage to be reloaded to so they can join it
-          sendNewGameResponse(ws, id)
+          sendNewGameResponse(ws, game.id)
           break
         case 'changeName':
           // Incoming name change!
@@ -148,9 +144,7 @@ function newBag() {
 
 // node-persist API: https://www.npmjs.com/package/node-persist#api-documentation
 
-// takes a game, looks up its ID, and writes it over the old version
-// of the same game in the gameStates dictionary.
-// If there wasn't an old version, saves it.
+// saves game in store
 async function saveGame(game) {
   console.log('Game was saved!!!!!!')
   var gameId = game.id
@@ -263,7 +257,6 @@ function sendNewGameResponse(ws, id) {
 
 // takes a game and uses the connections list to send an update to each ws in the connection list for that game
 function sendUpdateToAll(game) {
-  console.log(`Currently active games: ${Object.keys(gameStates)}`)
   var connectionsList = connections[game.id]
   console.log(connections)
   connectionsList.forEach((connection, i) => {
