@@ -134,7 +134,10 @@ function changeName(player, newName) {
   //   - new name is same as old name
   //   - new name is blank
   //   - new name has a _ in it (not allowed)
-  if ((newName != null) && (newName !== player) && (newName !== '') && (!(newName.includes('_')))) {
+  if (newName != null &&
+      newName !== player &&
+      newName !== '' &&
+      !(newName.includes('_'))) {
     sendChangeName(player, newName)
   } else {
     console.log('Prompt was cancelled or had invalid name (same as old name, blank, or contained underscore)')
