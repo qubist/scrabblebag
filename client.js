@@ -10,8 +10,8 @@ socket.onmessage = function (event) {
     case 'update':
       game = msg.game
       // update game board with new game info
-      renderNames(game)
       renderBag(game)
+      renderNames(game)
       renderHands(game)
       hidePlayers(game.numPlayers)
       // FIXME: there's a Flicker Of Unupdated Content because of this code
@@ -144,7 +144,7 @@ function renderBag(game) {
 
 function renderHands(game) {
   // iterate through dictionary of players and render each one's hand
-  for (const [name, hand] of Object.entries(game.players)) {
+  for (const [name, hand] of game.players) {
     console.log('rendering hand:', name, hand)
     renderHand(game, name)
   }
@@ -155,14 +155,16 @@ function renderNames(game) {
   // change HTMLcollection into array so we can use .entries() to enumerate it
   const playerButtonsArray = [...playerButtons]
   // get list of names from game object
-  const names = Object.keys(game.players)
+  const names = game.players.map(player => player[0])
   for (const [i, playerButton] of playerButtonsArray.entries()) {
     // make sure the id of the hand element matches the name in the game object (this is for name changes)
     const oldName = playerButton.textContent
     const newName = names[i]
-    document.getElementById(playerNameToHandId(oldName)).id = playerNameToHandId(newName)
+    if (oldName !== newName) {
+      document.getElementById(playerNameToHandId(oldName)).id = playerNameToHandId(newName)
+    }
     // change the text content of the player button to the new name
-    playerButton.textContent = names[i] // fixme change to newName
+    playerButton.textContent = newName
   }
 }
 
@@ -188,6 +190,16 @@ function getSelected(playerName) {
   return result
 }
 
+// returns the hand of the specified player from the specified playerTable
+function getHand(playerTable, player) {
+  for (const [playerName, hand] of playerTable) {
+    if (playerName === player) {
+      return hand
+    }
+  }
+  console.log("ERR: requested player wasn't in player table")
+}
+
 // player is player name as a string: needs to be converted to element-id format.
 function renderHand(game, playerName) {
   const handElementId = playerNameToHandId(playerName)
@@ -203,7 +215,7 @@ function renderHand(game, playerName) {
   }
 
   // put each letter in the hand onto a tile
-  const hand = game.players[playerName]
+  const hand = getHand(game.players, playerName)
   // hand.forEach((letter, i) => {
   for (const [i, letter] of hand.entries()) {
     handE.children[i].textContent = letter

@@ -93,7 +93,7 @@ wss.on('connection', ws => {
         console.log(`${player} is trying to change their name to ${newName}! More power to 'em!`)
 
         game = getGame(gameId)
-        const currentNames = Object.keys(game.players)
+        const currentNames = game.players.map(player => player[0]) // first item of every player-hand array
 
         // check that newName is not already a used name
         if (currentNames.includes(newName)) {
@@ -132,8 +132,8 @@ function makeGame(id, playerTable, numPlayers, bag) {
 function newGame(numPlayers) {
   const gameId = get_random(nineLetterWords)
   console.log('Making a game with random ID: ', gameId)
-  // playerTable is four name : hand pairs
-  return makeGame(gameId, {'Player 1':[], 'Player 2':[], 'Player 3':[], 'Player 4':[]}, numPlayers, newBag())
+  // playerTable is four [name, hand] arrays
+  return makeGame(gameId, [['Player 1', []], ['Player 2', []], ['Player 3', []], ['Player 4', []]], numPlayers, newBag())
 }
 
 function newBag() {
@@ -169,6 +169,16 @@ function listRemove(list, item) {
   }
 }
 
+// returns the hand of the specified player from the specified playerTable
+function getHand(playerTable, player) {
+  for (const [playerName, hand] of playerTable) {
+    if (playerName === player) {
+      return hand
+    }
+  }
+  console.log("ERR: requested player wasn't in player table")
+}
+
 // takes a message (must be play or draw) and a game and returns the result of the play or draw, after making sure it's legal
 function transformGame(msg, game) {
   console.log('transforming game ', game.id, 'with message: ', msg)
@@ -180,7 +190,7 @@ function transformGame(msg, game) {
   if (msg.type === 'play') {
     var player = msg.player
     var letter = msg.letter
-    var hand = playerTable[player]
+    var hand = getHand(playerTable, player)
 
     // check that the letter being played is in the player's hand
     // and remove it from the hand
@@ -194,7 +204,7 @@ function transformGame(msg, game) {
     // replace it in the hand with a new letter from the bag
   } else if (msg.type === 'draw') {
     var player = msg.player
-    var hand = playerTable[player]
+    var hand = getHand(playerTable, player)
     // check that the player's hand isn't too big
     if (hand.length === HAND_SIZE) {
       console.log('Hand was too big, so you can\'t draw!')
@@ -213,11 +223,16 @@ function transformGame(msg, game) {
     var player = msg.player
     var newName = msg.newName
 
-    // create new and delete the old
-    playerTable[newName] = playerTable[player]
-    delete playerTable[player]
-
-    game.players = playerTable
+    // build up a new player table, same order, same hands, but replacing player's name with new name
+    const newPlayerTable = []
+    for (const [playerName, hand] of playerTable) {
+      if (playerName === player) {
+        newPlayerTable.push([newName, hand])
+      } else {
+        newPlayerTable.push([playerName, hand])
+      }
+    }
+    game.players = newPlayerTable
     return game
 
   } else {
