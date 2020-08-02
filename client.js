@@ -219,9 +219,9 @@ function renderButtons(game) {
 
 function renderPlayButtons() {
   const actionButtons = document.getElementsByClassName('action-button')
-  const playerName = actionButton.parentElement.previousElementSibling.textContent // get player name
   for (const actionButton of actionButtons) {
     if (actionButton.value === 'Play') {
+      const playerName = actionButton.parentElement.previousElementSibling.textContent // get player name
       actionButton.disabled = false
       const handE = document.getElementById(playerNameToHandId(playerName))
       // count tiles in hand that are selected
