@@ -66,6 +66,7 @@ wss.on('connection', ws => {
         saveGame(updatedGame) // save transformed game
         break
       case 'draw':
+        console.log('msg: ', msg)
         player = msg.player
         gameId = msg.id
         console.log(`Player ${player} is trying to draw in game: ${gameId}!`)
@@ -87,8 +88,8 @@ wss.on('connection', ws => {
         break
       case 'changeName':
         // Incoming name change!
-        const player = msg.player
-        const newName = msg.newName
+        player = msg.player
+        newName = msg.newName
         console.log(`${player} is trying to change their name to ${newName}! More power to 'em!`)
 
         const currentNames = Object.keys(game.players)
@@ -102,7 +103,7 @@ wss.on('connection', ws => {
 
         // update the game object
         game = getGame(gameId)
-        const updatedGame = transformGame(msg, game) // apply name change to the game
+        updatedGame = transformGame(msg, game) // apply name change to the game
         sendUpdateToAll(updatedGame)
         saveGame(updatedGame)
         break
