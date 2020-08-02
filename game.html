@@ -33,12 +33,12 @@
           <div id="hand-6-P1" class="grid-item" onclick="setSelected('hand-6-P1')"></div>
        </div>
       <br>
-      <input type="button" class="action-button" value="Play" onclick="
+      <input type="button" class="action-button" disabled value="Play" onclick="
         var player = document.getElementById('button-P1').textContent
         var letters = getSelected(player)
         playMultiple(letters, player)
         clearSelected(player)">
-      <input type="button" class="action-button" value="Draw" onclick="
+      <input type="button" class="action-button" disabled value="Draw" onclick="
         var player = document.getElementById('button-P1').textContent
         sendDraw(player)
       ">
@@ -62,16 +62,16 @@
           <div id="hand-6-P2" class="grid-item" onclick="setSelected('hand-6-P2')"></div>
        </div>
       <br>
-      <input type="button" class="action-button" value="Play" onclick="
+      <input type="button" class="action-button" disabled value="Play" onclick="
         var player = document.getElementById('button-P2').textContent
         var letters = getSelected(player)
         playMultiple(letters, player)
         clearSelected(player)">
-      <input type="button" class="action-button" value="Draw" onclick="
+      <input type="button" class="action-button" disabled value="Draw" onclick="
         var player = document.getElementById('button-P2').textContent
         sendDraw(player)
       ">
-      <input type="button" class="name-change-button action-button" value="Change name" onclick="
+      <input type="button" class="name-change-button action-button" disabled value="Change name" onclick="
         var player = document.getElementById('button-P2').textContent
         const newName = prompt('Enter a new name', player)
         changeName(player, newName) // logic in the main file
@@ -91,16 +91,16 @@
           <div id="hand-6-P3" class="grid-item" onclick="setSelected('hand-6-P3')"></div>
        </div>
       <br>
-      <input type="button" class="action-button" value="Play" onclick="
+      <input type="button" class="action-button" disabled value="Play" onclick="
         var player = document.getElementById('button-P3').textContent
         var letters = getSelected(player)
         playMultiple(letters, player)
         clearSelected(player)">
-      <input type="button" class="action-button" value="Draw" onclick="
+      <input type="button" class="action-button" disabled value="Draw" onclick="
         var player = document.getElementById('button-P3').textContent
         sendDraw(player)
       ">
-      <input type="button" class="name-change-button action-button" value="Change name" onclick="
+      <input type="button" class="name-change-button action-button" disabled value="Change name" onclick="
         var player = document.getElementById('button-P3').textContent
         const newName = prompt('Enter a new name', player)
         changeName(player, newName) // logic in the main file
@@ -120,16 +120,16 @@
           <div id="hand-6-P4" class="grid-item" onclick="setSelected('hand-6-P4')"></div>
        </div>
       <br>
-      <input type="button" class="action-button" value="Play" onclick="
+      <input type="button" class="action-button" disabled value="Play" onclick="
         var player = document.getElementById('button-P4').textContent
         var letters = getSelected(player)
         playMultiple(letters, player)
         clearSelected(player)">
-      <input type="button" class="action-button" value="Draw" onclick="
+      <input type="button" class="action-button" disabled value="Draw" onclick="
         var player = document.getElementById('button-P4').textContent
         sendDraw(player)
       ">
-      <input type="button" class="name-change-button action-button" value="Change name" onclick="
+      <input type="button" class="name-change-button action-button" disabled value="Change name" onclick="
         var player = document.getElementById('button-P4').textContent
         const newName = prompt('Enter a new name', player)
         changeName(player, newName) // logic in the main file
