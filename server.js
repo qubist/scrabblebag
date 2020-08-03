@@ -4,6 +4,8 @@ const bagfile = require('./bag')
 const scrabbleLetters = bagfile.scrabbleLetters
 const wordsfile = require('./words9')
 const nineLetterWords = wordsfile.nineLetterWords
+const scrabbleWordsfile = require('./scrabblewords9')
+const nineLetterScrabbleWords = wordsfile.nineLetterScrabbleWords
 
 const WebSocket = require('ws')
 const wss = new WebSocket.Server({ port: 8080 })
@@ -11,6 +13,7 @@ const wss = new WebSocket.Server({ port: 8080 })
 const storage = require('node-persist')
 
 const HAND_SIZE = 7
+const DICTIONARY = nineLetterScrabbleWords
 
 // hash of gameId : connection-list pairs
 var connections = {}
@@ -128,12 +131,12 @@ function makeGame(id, playerTable, numPlayers, bag) {
 }
 
 async function newGame(numPlayers) {
-  var gameId = get_random(nineLetterWords)
+  var gameId = get_random(DICTIONARY)
   while ( (await storage.keys()).includes(gameId) ) {
     // if the ID is already in use, try again and check that we haven't run out of IDs
     // this code should almost never run :}
-    gameId = get_random(nineLetterWords)
-    if ( (await storage.keys()).length >= nineLetterWords.length ) {
+    gameId = get_random(DICTIONARY)
+    if ( (await storage.keys()).length >= DICTIONARY.length ) {
       console.error();('ERR: out of game IDs!')
     }
   }
