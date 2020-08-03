@@ -130,7 +130,7 @@ function makeGame(id, playerTable, numPlayers, bag) {
 }
 
 async function newGame(numPlayers) {
-  const wordsList = nineLetterWords
+  const wordsList = nineLetterScrabbleWords
   var gameId = get_random(wordsList)
   while ( (await storage.keys()).includes(gameId) ) {
     // if the ID is already in use, try again and check that we haven't run out of IDs
