@@ -85,6 +85,11 @@ socket.onopen = function () {
   }
 }
 
+socket.onclose = function () {
+  alert("test")
+}
+
+
 function sendNewGameRequest(numPlayers) {
   console.log(`Sending newGameRequest for ${numPlayers} players!`)
   socket.send(JSON.stringify( { type: 'newGameRequest', numPlayers: numPlayers } ))
