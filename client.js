@@ -144,7 +144,7 @@ function renderBag(game) {
   var result = ''
   game.bag.forEach((tile, i) => {
     const toAdd = ((tile === ' ') ? "BLANK" : tile) // ternary operator: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator
-    result += tile + ', '
+    result += toAdd + ', '
   })
   result = result.substring(0, result.length - 2) // remove final ', '
 
