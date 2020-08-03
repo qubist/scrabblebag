@@ -19,7 +19,7 @@ const DICTIONARY = nineLetterScrabbleWords
 var connections = {}
 
 async function run() {
-  await storage.init()
+  await storage.init({ ttl: 1000*60*60*24*30 /* 30 days */ })
   console.log('Storage set up!')
   wss.on('connection', ws => {
     console.log('Incoming connection!')
@@ -162,7 +162,7 @@ async function saveGame(game) {
 // takes a game ID and returns the corresponding game
 async function getGame(gameId) {
   console.log(`Getting game ${gameId} with async function call to storage.getItem!`)
-  console.log(`Result was: ${await storage.getItem(gameId)}`)
+  console.log('Result was:', await storage.getItem(gameId))
   return await storage.getItem(gameId)
 }
 
