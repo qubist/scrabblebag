@@ -86,7 +86,9 @@ socket.onopen = function () {
 }
 
 socket.onclose = function () {
-  alert("test")
+  if (confirm('The connection to the server was lost. Reload to attempt to reconnect?')) {
+    window.location.reload()
+  }
 }
 
 
