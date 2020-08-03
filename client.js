@@ -85,7 +85,8 @@ socket.onopen = function () {
   }
 }
 
-socket.onclose = function () {
+socket.onclose = function (closeObj) {
+  console.log('closeObj:', closeObj)
   if (confirm('The connection to the server was lost. Reload to attempt to reconnect?')) {
     window.location.reload()
   }
