@@ -85,6 +85,22 @@ socket.onopen = function () {
   }
 }
 
+socket.onclose = function (closeObj) {
+  console.log('closeObj:', closeObj)
+  // only do this if the connection was closed uncleanly which happens when
+  // the server goes down or the internect connection goes down.
+  // If the page is changed (like when creating a game) or closed, the
+  // connection closes but it closes cleanly.
+  // This check prevents a flicker of "connection lost" confirm-popup from
+  // appearing every time the page is reloaded or changed
+  if (!(closeObj.wasClean)) {
+    if (confirm('The connection to the server was lost. Reload to attempt to reconnect?')) {
+      window.location.reload()
+    }
+  }
+}
+
+
 function sendNewGameRequest(numPlayers) {
   console.log(`Sending newGameRequest for ${numPlayers} players!`)
   socket.send(JSON.stringify( { type: 'newGameRequest', numPlayers: numPlayers } ))
