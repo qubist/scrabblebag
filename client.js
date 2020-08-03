@@ -160,7 +160,7 @@ function renderBag(game) {
 
   var result = ''
   game.bag.forEach((tile, i) => {
-    const toAdd = ((tile === ' ') ? "BLANK" : tile) // ternary operator: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator
+    const toAdd = ((tile === ' ') ? 'BLANK' : tile) // ternary operator: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator
     result += toAdd + ', '
   })
   result = result.substring(0, result.length - 2) // remove final ', '
@@ -331,10 +331,10 @@ function hidePlayers(numPlayers) {
   var toHide = [] // list of classes to hide
   switch(numPlayers) {
     case 2:
-      toHide = ["P3", "P4"]
+      toHide = ['P3', 'P4']
       break
     case 3:
-      toHide = ["P4"]
+      toHide = ['P4']
       break
     case 4:
       // keep it empty

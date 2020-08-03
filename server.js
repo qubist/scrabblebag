@@ -19,7 +19,7 @@ const DICTIONARY = nineLetterScrabbleWords
 var connections = {}
 
 async function run() {
-  await storage.init({ ttl: 1000*60*60*24*30 /* 30 days */ })
+  await storage.init({ ttl: 1000*60*60*24*30 /* 30 days timeout */ })
   console.log('Storage set up!')
   wss.on('connection', ws => {
     console.log('Incoming connection!')
@@ -156,7 +156,7 @@ function newBag() {
 async function saveGame(game) {
   console.log('Game was saved!')
   var gameId = game.id
-  await storage.setItem(gameId,game)
+  await storage.setItem(gameId,game) // resets ttl in store
 }
 
 // takes a game ID and returns the corresponding game
@@ -187,7 +187,7 @@ function getHand(playerTable, player) {
       return hand
     }
   }
-  console.log("ERR: requested player wasn't in player table")
+  console.log('ERR: requested player wasn\'t in player table')
 }
 
 // takes a message (must be play or draw) and a game and returns the result of the play or draw, after making sure it's legal
