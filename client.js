@@ -69,8 +69,9 @@ socket.onopen = function () {
   if (path === '/') { // if on homepage
     // do nothing
   } else if (hasLower(pathAfterSlash) && isAlpha(pathAfterSlash) && pathAfterSlash.length === 9) {
-    // if the path looks valid and has a lowercase letter, reload to the uppercase'd version
-    window.location.assign(`http://${window.location.hostname}/${pathAfterSlash.toUpperCase()}`)
+    // if the path looks valid and has a lowercase letter, replace to the uppercase'd version.
+    // Replace not assign: https://stackoverflow.com/questions/4505798/
+    window.location.replace(`http://${window.location.hostname}/${pathAfterSlash.toUpperCase()}`)
   } else {
     // otherwise, we've got an uppercase maybe game ID
     // check that maybeGameId is correct (9 letters and uppercase alpha)
