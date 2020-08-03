@@ -13,7 +13,6 @@ const wss = new WebSocket.Server({ port: 8080 })
 const storage = require('node-persist')
 
 const HAND_SIZE = 7
-const DICTIONARY = nineLetterScrabbleWords
 
 // hash of gameId : connection-list pairs
 var connections = {}
@@ -131,12 +130,12 @@ function makeGame(id, playerTable, numPlayers, bag) {
 }
 
 async function newGame(numPlayers) {
-  var gameId = get_random(DICTIONARY)
+  var gameId = get_random(nineLetterScrabbleWords)
   while ( (await storage.keys()).includes(gameId) ) {
     // if the ID is already in use, try again and check that we haven't run out of IDs
     // this code should almost never run :}
-    gameId = get_random(DICTIONARY)
-    if ( (await storage.keys()).length >= DICTIONARY.length ) {
+    gameId = get_random(nineLetterScrabbleWords)
+    if ( (await storage.keys()).length >= nineLetterScrabbleWords.length ) {
       console.error();('ERR: out of game IDs!')
     }
   }
