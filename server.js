@@ -5,7 +5,7 @@ const scrabbleLetters = bagfile.scrabbleLetters
 const wordsfile = require('./words9')
 const nineLetterWords = wordsfile.nineLetterWords
 const scrabbleWordsfile = require('./scrabblewords9')
-const nineLetterScrabbleWords = wordsfile.nineLetterScrabbleWords
+const nineLetterScrabbleWords = scrabbleWordfile.nineLetterScrabbleWords
 
 const WebSocket = require('ws')
 const wss = new WebSocket.Server({ port: 8080 })
