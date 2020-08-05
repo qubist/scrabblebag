@@ -45,12 +45,12 @@ body {
   grid-gap: 15px;
   grid-template-columns: repeat(7, 40px);
   grid-template-rows: 40px;
-  background-color: #2196F3;
+  background-color: #E75A3D;
   padding: 10px;
 }
 
 .grid-item {
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(254, 249, 231, 0.9); 
   border: 1px solid rgba(0, 0, 0, 0.8);
   font-size: 30px;
   text-align: center;
@@ -60,7 +60,7 @@ body {
 }
 
 .selected {
-  outline: 3px solid rgba(255, 0, 0, 0.8);
+  outline: 3px solid rgba(255, 255, 0, 0.8);
 }
 
 .name-change-button {
