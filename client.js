@@ -314,7 +314,7 @@ function renderHand(game, playerName) {
 }
 
 function playerNameToHandId(name) {
-  return name.replace(' ', '_') + '-hand'
+  return name.replace(/ /g,"_") + '-hand' // use regex to replace all spaces
 }
 
 // use this later to show the score of the tiles so they look realistic
