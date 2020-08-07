@@ -50,13 +50,16 @@ body {
 }
 
 .grid-item {
-  background-color: rgba(254, 249, 231, 0.9); 
+  background-color: rgba(254, 249, 231, 0.9);
   border: 1px solid rgba(0, 0, 0, 0.8);
   font-size: 30px;
   text-align: center;
-  padding: 8px 0;
   cursor: pointer;
+  width: 40px;
+  height: 40px;
   display: none;
+  align-items: center;
+  justify-content: center;
 }
 
 .selected {

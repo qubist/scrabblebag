@@ -293,7 +293,7 @@ function renderHand(game, playerName) {
   // clear all the tile labels and show them all
   for (const tile of tiles) { // i miss python <3
     tile.textContent = ''
-    tile.style.display = 'block'
+    tile.style.display = 'flex'
   }
 
   // put each letter in the hand onto a tile
