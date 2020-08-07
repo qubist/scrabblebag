@@ -203,7 +203,7 @@ function renderNames(game) {
 }
 
 function renderButtons(game) {
-  // render all buttons except play buttons
+  // render all buttons except play and putBack buttons
   const actionButtons = document.getElementsByClassName('action-button')
   for (const actionButton of actionButtons) {
     // all buttons start as disabled, undisabled them
@@ -234,10 +234,10 @@ function renderButtons(game) {
 
 }
 
-function renderPlayButtons() {
+function renderPlayButtons() { // and also putBack buttons
   const actionButtons = document.getElementsByClassName('action-button')
   for (const actionButton of actionButtons) {
-    if (actionButton.value === 'Play') {
+    if (actionButton.value === 'Play' || actionButton.value === 'Put back') {
       const playerName = actionButton.parentElement.previousElementSibling.textContent // get player name
       actionButton.disabled = false
       const handE = document.getElementById(playerNameToHandId(playerName))
