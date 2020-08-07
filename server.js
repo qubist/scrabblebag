@@ -238,7 +238,7 @@ function transformGame(msg, game) {
           // and remove it from the hand
           listRemove(hand, letter)
           // ...and add the letter to the bag!
-          game.bag.append(letter)
+          game.bag.push(letter)
         } else {
           console.log('Letter played wasn\'t in the hand! Not changing anything')
           // ERROR, letter wasn't in hand!
