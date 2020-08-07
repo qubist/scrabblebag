@@ -240,7 +240,7 @@ function transformGame(msg, game) {
           // ...and add the letter to the bag!
           game.bag.push(letter)
         } else {
-          console.log('Letter played wasn\'t in the hand! Not changing anything')
+          console.log('Letter put back wasn\'t in the hand! Not changing anything')
           // ERROR, letter wasn't in hand!
         }
       }
