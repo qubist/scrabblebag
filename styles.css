@@ -75,6 +75,7 @@ body {
 
 .player-button {
   font-weight: bold;
+  white-space: pre-wrap;
 }
 
 .tile-color {
