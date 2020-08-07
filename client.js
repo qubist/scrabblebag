@@ -120,6 +120,11 @@ function sendPlay(letters, player) {
   socket.send(JSON.stringify(playObject))
 }
 
+function sendPutBack(letters, player) {
+  var playObject = { type: 'putBack', letters: letters, player: player, id: window.location.pathname.substring(1) }
+  socket.send(JSON.stringify(playObject))
+}
+
 // takes only play but sends object containing game ID
 function sendDraw(player) {
   var drawObject = { type: 'draw', player: player, id: window.location.pathname.substring(1) }

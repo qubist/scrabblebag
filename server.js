@@ -66,6 +66,19 @@ async function run() {
           sendUpdateToAll(updatedGame) // send out update with transformed game
           await saveGame(updatedGame) // save transformed game
           break
+        case 'putBack':
+          letters = msg.letters // get the letters to put back
+          player = msg.player
+          gameId = msg.id
+          console.log(`Player ${player} is trying to put back letters ${letters} in game: ${gameId}!`)
+
+          // update game with transformed game
+          game = await getGame(gameId) // grab the game
+          updatedGame = transformGame(msg, game) // apply the move to it
+          sendUpdateToAll(updatedGame) // send out update with transformed game
+          await saveGame(updatedGame) // save transformed game
+          break
+
         case 'draw':
           console.log('msg: ', msg)
           player = msg.player
@@ -215,6 +228,24 @@ function transformGame(msg, game) {
       }
       return game
       break
+    case 'putBack':
+      var player = msg.player
+      var letters = msg.letters
+      var hand = getHand(playerTable, player)
+      // check that the letters being played are in the player's hand
+      for (const letter of letters) {
+        if (hand.includes(letter)) {
+          // and remove it from the hand
+          listRemove(hand, letter)
+          // ...and add the letter to the bag!
+          game.bag.append(letter)
+        } else {
+          console.log('Letter played wasn\'t in the hand! Not changing anything')
+          // ERROR, letter wasn't in hand!
+        }
+      }
+
+
     case 'draw':
       var player = msg.player
       var hand = getHand(playerTable, player)
