@@ -214,6 +214,7 @@ function renderButtons(game) {
     const hand = getHand(game.players, playerName) // get player hand
     switch (actionButton.value) {
       case 'Play':
+      case 'Put back':
         // handled in the renderPlayButtons() function so it can be called
         // without game parameter
         break
