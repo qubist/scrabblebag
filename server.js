@@ -244,8 +244,8 @@ function transformGame(msg, game) {
           // ERROR, letter wasn't in hand!
         }
       }
-
-
+      return game
+      break
     case 'draw':
       var player = msg.player
       var hand = getHand(playerTable, player)
