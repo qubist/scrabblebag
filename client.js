@@ -120,6 +120,11 @@ function sendPlay(letters, player) {
   socket.send(JSON.stringify(playObject))
 }
 
+function sendPutBack(letters, player) {
+  var playObject = { type: 'putBack', letters: letters, player: player, id: window.location.pathname.substring(1) }
+  socket.send(JSON.stringify(playObject))
+}
+
 // takes only play but sends object containing game ID
 function sendDraw(player) {
   var drawObject = { type: 'draw', player: player, id: window.location.pathname.substring(1) }
@@ -198,7 +203,7 @@ function renderNames(game) {
 }
 
 function renderButtons(game) {
-  // render all buttons except play buttons
+  // render all buttons except play and putBack buttons
   const actionButtons = document.getElementsByClassName('action-button')
   for (const actionButton of actionButtons) {
     // all buttons start as disabled, undisabled them
@@ -209,6 +214,7 @@ function renderButtons(game) {
     const hand = getHand(game.players, playerName) // get player hand
     switch (actionButton.value) {
       case 'Play':
+      case 'Put back':
         // handled in the renderPlayButtons() function so it can be called
         // without game parameter
         break
@@ -228,10 +234,10 @@ function renderButtons(game) {
 
 }
 
-function renderPlayButtons() {
+function renderPlayButtons() { // and also putBack buttons
   const actionButtons = document.getElementsByClassName('action-button')
   for (const actionButton of actionButtons) {
-    if (actionButton.value === 'Play') {
+    if (actionButton.value === 'Play' || actionButton.value === 'Put back') {
       const playerName = actionButton.parentElement.previousElementSibling.textContent // get player name
       actionButton.disabled = false
       const handE = document.getElementById(playerNameToHandId(playerName))
