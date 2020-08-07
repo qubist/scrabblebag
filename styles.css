@@ -4,7 +4,7 @@ body {
 }
 
 .collapsible, .collapsible-confirm {
-  background-color: #777;
+  background-color: #b63116;
   color: white;
   cursor: pointer;
   padding: 18px;
@@ -45,7 +45,7 @@ body {
   grid-gap: 15px;
   grid-template-columns: repeat(7, 40px);
   grid-template-rows: 40px;
-  background-color: #E75A3D;
+  background-color: ##cc3719;
   padding: 10px;
 }
 
