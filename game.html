@@ -10,15 +10,44 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="bootstrap.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="bootstrap.js"></script>
+
   </head>
 
   <body>
     <h1>Scrabblebag</h1>
 
-    <button class="collapsible-confirm" id="bag-button">Bag</button>
-    <div class="content">
-      <span id="bag"></span>
+    <div>
+      <span id="bag-counter">Tiles left: </span>
+      <button type="button" class="bag-button" data-toggle="modal" data-target="#bagModal">View bag</button>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="bagModal" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Bag</h4>
+          </div>
+          <div class="modal-body">
+            <p id="bag"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
 
 
     <button id="button-P1" class="collapsible player-button P1"></button>
@@ -38,6 +67,11 @@
         var letters = getSelected(player)
         sendPlay(letters, player)
         clearSelected(player)">
+      <input type="button" class="action-button" disabled value="Put back" onclick="
+        var player = document.getElementById('button-P1').textContent
+        var letters = getSelected(player)
+        sendPutBack(letters, player)
+        clearSelected(player)">
       <input type="button" class="action-button" disabled value="Draw" onclick="
         var player = document.getElementById('button-P1').textContent
         sendDraw(player)
@@ -47,11 +81,6 @@
         const newName = prompt('Enter a new name', player)
         changeName(player, newName) // logic in the main file
         ">
-      <input type="button" class="action-button" disabled value="Put back" onclick="
-        var player = document.getElementById('button-P1').textContent
-        var letters = getSelected(player)
-        sendPutBack(letters, player)
-        clearSelected(player)">
     </div>
 
 
@@ -72,6 +101,11 @@
         var letters = getSelected(player)
         sendPlay(letters, player)
         clearSelected(player)">
+      <input type="button" class="action-button" disabled value="Put back" onclick="
+        var player = document.getElementById('button-P2').textContent
+        var letters = getSelected(player)
+        sendPutBack(letters, player)
+        clearSelected(player)">
       <input type="button" class="action-button" disabled value="Draw" onclick="
         var player = document.getElementById('button-P2').textContent
         sendDraw(player)
@@ -81,11 +115,6 @@
         const newName = prompt('Enter a new name', player)
         changeName(player, newName) // logic in the main file
         ">
-      <input type="button" class="action-button" disabled value="Put back" onclick="
-        var player = document.getElementById('button-P2').textContent
-        var letters = getSelected(player)
-        sendPutBack(letters, player)
-        clearSelected(player)">
     </div>
 
 
@@ -106,6 +135,11 @@
         var letters = getSelected(player)
         sendPlay(letters, player)
         clearSelected(player)">
+      <input type="button" class="action-button" disabled value="Put back" onclick="
+        var player = document.getElementById('button-P3').textContent
+        var letters = getSelected(player)
+        sendPutBack(letters, player)
+        clearSelected(player)">
       <input type="button" class="action-button" disabled value="Draw" onclick="
         var player = document.getElementById('button-P3').textContent
         sendDraw(player)
@@ -115,11 +149,6 @@
         const newName = prompt('Enter a new name', player)
         changeName(player, newName) // logic in the main file
         ">
-      <input type="button" class="action-button" disabled value="Put back" onclick="
-        var player = document.getElementById('button-P3').textContent
-        var letters = getSelected(player)
-        sendPutBack(letters, player)
-        clearSelected(player)">
     </div>
 
 
@@ -140,6 +169,11 @@
         var letters = getSelected(player)
         sendPlay(letters, player)
         clearSelected(player)">
+      <input type="button" class="action-button" disabled value="Put back" onclick="
+        var player = document.getElementById('button-P4').textContent
+        var letters = getSelected(player)
+        sendPutBack(letters, player)
+        clearSelected(player)">
       <input type="button" class="action-button" disabled value="Draw" onclick="
         var player = document.getElementById('button-P4').textContent
         sendDraw(player)
@@ -149,11 +183,6 @@
         const newName = prompt('Enter a new name', player)
         changeName(player, newName) // logic in the main file
         ">
-      <input type="button" class="action-button" disabled value="Put back" onclick="
-        var player = document.getElementById('button-P4').textContent
-        var letters = getSelected(player)
-        sendPutBack(letters, player)
-        clearSelected(player)">
     </div>
 
 
