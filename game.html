@@ -10,15 +10,40 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bootstrap.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="bootstrap.js"></script>
+
   </head>
 
   <body>
     <h1>Scrabblebag</h1>
 
-    <button class="collapsible-confirm" id="bag-button">Bag</button>
-    <div class="content">
-      <span id="bag"></span>
+    <button type="button" data-toggle="modal" data-target="#bagModal">View bag</button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="bagModal" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Bag</h4>
+          </div>
+          <div class="modal-body">
+            <p id="bag"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
     </div>
+
 
 
     <button id="button-P1" class="collapsible player-button P1"></button>
