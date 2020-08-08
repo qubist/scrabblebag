@@ -172,8 +172,8 @@ function renderBag(game) {
 
   bagE.textContent = result
 
-  // put the number of tiles left in the title of bag
-  document.getElementById('bag-button').textContent = `Bag: ${game.bag.length}`
+  // print the number of tiles left
+  document.getElementById('bag-counter').textContent = `Tiles left: ${game.bag.length}`
 }
 
 function renderHands(game) {
