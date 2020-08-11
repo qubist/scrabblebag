@@ -15,8 +15,12 @@ body {
   font-size: 15px;
 }
 
-.active, .collapsible:hover, .collapsible-confirm:hover {
+.active {
   background-color: #555;
+}
+
+.collapsible:hover, .collapsible-confirm:hover {
+  background-color: #666;
 }
 
 .content {
