@@ -180,7 +180,7 @@ function renderBag(game) {
   bagCounterE.textContent = `Tiles left: ${tilesLeft}`
 
   // Move the tiles overlay to the right place
-  tileOverlayE.top = `${290 - 2.9*tilesLeft}px`
+  tileOverlayE.style.top = `${290 - 2.9*tilesLeft}px`
 }
 
 function renderHands(game) {
