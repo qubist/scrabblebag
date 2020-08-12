@@ -22,11 +22,6 @@
   <body>
     <h1>Scrabblebag</h1>
 
-    <div>
-      <span id="bag-counter">Tiles left: </span>
-      <button type="button" class="bag-button" data-toggle="modal" data-target="#bagModal">View bag</button>
-    </div>
-
     <!-- Modal -->
     <div class="modal fade" id="bagModal" role="dialog">
       <div class="modal-dialog">
@@ -40,151 +35,170 @@
           <div class="modal-body">
             <p id="bag"></p>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
         </div>
 
       </div>
     </div>
 
 
+    <div class="grid-container-page">
 
-    <button id="button-P1" class="collapsible player-button P1"></button>
-    <div class="content P1">
-      <div id="-hand" class="hand grid-container">
-          <div id="hand-0-P1" class="grid-item" onclick="setSelected('hand-0-P1')"></div>
-          <div id="hand-1-P1" class="grid-item" onclick="setSelected('hand-1-P1')"></div>
-          <div id="hand-2-P1" class="grid-item" onclick="setSelected('hand-2-P1')"></div>
-          <div id="hand-3-P1" class="grid-item" onclick="setSelected('hand-3-P1')"></div>
-          <div id="hand-4-P1" class="grid-item" onclick="setSelected('hand-4-P1')"></div>
-          <div id="hand-5-P1" class="grid-item" onclick="setSelected('hand-5-P1')"></div>
-          <div id="hand-6-P1" class="grid-item" onclick="setSelected('hand-6-P1')"></div>
-       </div>
-      <br>
-      <input type="button" class="action-button" disabled value="Play" onclick="
-        var player = document.getElementById('button-P1').textContent
-        var letters = getSelected(player)
-        sendPlay(letters, player)
-        clearSelected(player)">
-      <input type="button" class="action-button" disabled value="Put back" onclick="
-        var player = document.getElementById('button-P1').textContent
-        var letters = getSelected(player)
-        sendPutBack(letters, player)
-        clearSelected(player)">
-      <input type="button" class="action-button" disabled value="Draw" onclick="
-        var player = document.getElementById('button-P1').textContent
-        sendDraw(player)
-      ">
-      <input type="button" class="action-button name-change-button" disabled value="Change name" onclick="
-        var player = document.getElementById('button-P1').textContent
-        const newName = prompt('Enter a new name', player)
-        changeName(player, newName) // logic in the main file
-        ">
+      <div class="grid-item-page-player">
+        <button id="button-P1" class="collapsible player-button P1"></button>
+        <div class="content P1">
+          <div id="-hand" class="hand grid-container-hand">
+              <div id="hand-0-P1" class="grid-item-hand" onclick="setSelected('hand-0-P1')"></div>
+              <div id="hand-1-P1" class="grid-item-hand" onclick="setSelected('hand-1-P1')"></div>
+              <div id="hand-2-P1" class="grid-item-hand" onclick="setSelected('hand-2-P1')"></div>
+              <div id="hand-3-P1" class="grid-item-hand" onclick="setSelected('hand-3-P1')"></div>
+              <div id="hand-4-P1" class="grid-item-hand" onclick="setSelected('hand-4-P1')"></div>
+              <div id="hand-5-P1" class="grid-item-hand" onclick="setSelected('hand-5-P1')"></div>
+              <div id="hand-6-P1" class="grid-item-hand" onclick="setSelected('hand-6-P1')"></div>
+           </div>
+          <br>
+          <input type="button" class="action-button" disabled value="Play" onclick="
+            var player = document.getElementById('button-P1').textContent
+            var letters = getSelected(player)
+            sendPlay(letters, player)
+            clearSelected(player)">
+          <input type="button" class="action-button" disabled value="Put back" onclick="
+            var player = document.getElementById('button-P1').textContent
+            var letters = getSelected(player)
+            sendPutBack(letters, player)
+            clearSelected(player)">
+          <input type="button" class="action-button" disabled value="Draw" onclick="
+            var player = document.getElementById('button-P1').textContent
+            sendDraw(player)
+          ">
+          <input type="button" class="action-button name-change-button" disabled value="Change name" onclick="
+            var player = document.getElementById('button-P1').textContent
+            const newName = prompt('Enter a new name', player)
+            changeName(player, newName) // logic in the main file
+            ">
+        </div>
+      </div>
+
+      <div class="grid-item-page-player">
+        <button id="button-P2" class="collapsible player-button P2"></button>
+        <div class="content P2">
+          <div id="-hand" class="hand grid-container-hand">
+              <div id="hand-0-P2" class="grid-item-hand" onclick="setSelected('hand-0-P2')"></div>
+              <div id="hand-1-P2" class="grid-item-hand" onclick="setSelected('hand-1-P2')"></div>
+              <div id="hand-2-P2" class="grid-item-hand" onclick="setSelected('hand-2-P2')"></div>
+              <div id="hand-3-P2" class="grid-item-hand" onclick="setSelected('hand-3-P2')"></div>
+              <div id="hand-4-P2" class="grid-item-hand" onclick="setSelected('hand-4-P2')"></div>
+              <div id="hand-5-P2" class="grid-item-hand" onclick="setSelected('hand-5-P2')"></div>
+              <div id="hand-6-P2" class="grid-item-hand" onclick="setSelected('hand-6-P2')"></div>
+           </div>
+          <br>
+          <input type="button" class="action-button" disabled value="Play" onclick="
+            var player = document.getElementById('button-P2').textContent
+            var letters = getSelected(player)
+            sendPlay(letters, player)
+            clearSelected(player)">
+          <input type="button" class="action-button" disabled value="Put back" onclick="
+            var player = document.getElementById('button-P2').textContent
+            var letters = getSelected(player)
+            sendPutBack(letters, player)
+            clearSelected(player)">
+          <input type="button" class="action-button" disabled value="Draw" onclick="
+            var player = document.getElementById('button-P2').textContent
+            sendDraw(player)
+          ">
+          <input type="button" class="name-change-button action-button" disabled value="Change name" onclick="
+            var player = document.getElementById('button-P2').textContent
+            const newName = prompt('Enter a new name', player)
+            changeName(player, newName) // logic in the main file
+            ">
+        </div>
+      </div>
+
+      <div class="grid-item-page-player">
+        <button id="button-P3" class="collapsible player-button P3"></button>
+        <div class="content P3">
+          <div id="-hand" class="hand grid-container-hand">
+              <div id="hand-0-P3" class="grid-item-hand" onclick="setSelected('hand-0-P3')"></div>
+              <div id="hand-1-P3" class="grid-item-hand" onclick="setSelected('hand-1-P3')"></div>
+              <div id="hand-2-P3" class="grid-item-hand" onclick="setSelected('hand-2-P3')"></div>
+              <div id="hand-3-P3" class="grid-item-hand" onclick="setSelected('hand-3-P3')"></div>
+              <div id="hand-4-P3" class="grid-item-hand" onclick="setSelected('hand-4-P3')"></div>
+              <div id="hand-5-P3" class="grid-item-hand" onclick="setSelected('hand-5-P3')"></div>
+              <div id="hand-6-P3" class="grid-item-hand" onclick="setSelected('hand-6-P3')"></div>
+           </div>
+          <br>
+          <input type="button" class="action-button" disabled value="Play" onclick="
+            var player = document.getElementById('button-P3').textContent
+            var letters = getSelected(player)
+            sendPlay(letters, player)
+            clearSelected(player)">
+          <input type="button" class="action-button" disabled value="Put back" onclick="
+            var player = document.getElementById('button-P3').textContent
+            var letters = getSelected(player)
+            sendPutBack(letters, player)
+            clearSelected(player)">
+          <input type="button" class="action-button" disabled value="Draw" onclick="
+            var player = document.getElementById('button-P3').textContent
+            sendDraw(player)
+          ">
+          <input type="button" class="name-change-button action-button" disabled value="Change name" onclick="
+            var player = document.getElementById('button-P3').textContent
+            const newName = prompt('Enter a new name', player)
+            changeName(player, newName) // logic in the main file
+            ">
+        </div>
+      </div>
+
+      <div class="grid-item-page-player">
+        <button id="button-P4" class="collapsible player-button P4"></button>
+        <div class="content P4">
+          <div id="-hand" class="hand grid-container-hand">
+              <div id="hand-0-P4" class="grid-item-hand" onclick="setSelected('hand-0-P4')"></div>
+              <div id="hand-1-P4" class="grid-item-hand" onclick="setSelected('hand-1-P4')"></div>
+              <div id="hand-2-P4" class="grid-item-hand" onclick="setSelected('hand-2-P4')"></div>
+              <div id="hand-3-P4" class="grid-item-hand" onclick="setSelected('hand-3-P4')"></div>
+              <div id="hand-4-P4" class="grid-item-hand" onclick="setSelected('hand-4-P4')"></div>
+              <div id="hand-5-P4" class="grid-item-hand" onclick="setSelected('hand-5-P4')"></div>
+              <div id="hand-6-P4" class="grid-item-hand" onclick="setSelected('hand-6-P4')"></div>
+           </div>
+          <br>
+          <input type="button" class="action-button" disabled value="Play" onclick="
+            var player = document.getElementById('button-P4').textContent
+            var letters = getSelected(player)
+            sendPlay(letters, player)
+            clearSelected(player)">
+          <input type="button" class="action-button" disabled value="Put back" onclick="
+            var player = document.getElementById('button-P4').textContent
+            var letters = getSelected(player)
+            sendPutBack(letters, player)
+            clearSelected(player)">
+          <input type="button" class="action-button" disabled value="Draw" onclick="
+            var player = document.getElementById('button-P4').textContent
+            sendDraw(player)
+          ">
+          <input type="button" class="name-change-button action-button" disabled value="Change name" onclick="
+            var player = document.getElementById('button-P4').textContent
+            const newName = prompt('Enter a new name', player)
+            changeName(player, newName) // logic in the main file
+            ">
+        </div>
+      </div>
+
+      <div class="grid-item-page-bag">
+        <div class="bag">
+          <div class="bag-img-container">
+            <img class="bag-img-base" src="bag.png">
+            <img class="bag-img-overlay" src="tiles.png">
+            <img class="bag-img-overlay" src="mask.png">
+          </div>
+          <div class="tiles-status">
+            <span id="bag-counter">Tiles left: </span>
+            <button type="button" class="bag-button" data-toggle="modal" data-target="#bagModal">View bag</button>
+          </div>
+        </div>
+      </div>
+
+
     </div>
-
-
-    <button id="button-P2" class="collapsible player-button P2"></button>
-    <div class="content P2">
-      <div id="-hand" class="hand grid-container">
-          <div id="hand-0-P2" class="grid-item" onclick="setSelected('hand-0-P2')"></div>
-          <div id="hand-1-P2" class="grid-item" onclick="setSelected('hand-1-P2')"></div>
-          <div id="hand-2-P2" class="grid-item" onclick="setSelected('hand-2-P2')"></div>
-          <div id="hand-3-P2" class="grid-item" onclick="setSelected('hand-3-P2')"></div>
-          <div id="hand-4-P2" class="grid-item" onclick="setSelected('hand-4-P2')"></div>
-          <div id="hand-5-P2" class="grid-item" onclick="setSelected('hand-5-P2')"></div>
-          <div id="hand-6-P2" class="grid-item" onclick="setSelected('hand-6-P2')"></div>
-       </div>
-      <br>
-      <input type="button" class="action-button" disabled value="Play" onclick="
-        var player = document.getElementById('button-P2').textContent
-        var letters = getSelected(player)
-        sendPlay(letters, player)
-        clearSelected(player)">
-      <input type="button" class="action-button" disabled value="Put back" onclick="
-        var player = document.getElementById('button-P2').textContent
-        var letters = getSelected(player)
-        sendPutBack(letters, player)
-        clearSelected(player)">
-      <input type="button" class="action-button" disabled value="Draw" onclick="
-        var player = document.getElementById('button-P2').textContent
-        sendDraw(player)
-      ">
-      <input type="button" class="name-change-button action-button" disabled value="Change name" onclick="
-        var player = document.getElementById('button-P2').textContent
-        const newName = prompt('Enter a new name', player)
-        changeName(player, newName) // logic in the main file
-        ">
-    </div>
-
-
-    <button id="button-P3" class="collapsible player-button P3"></button>
-    <div class="content P3">
-      <div id="-hand" class="hand grid-container">
-          <div id="hand-0-P3" class="grid-item" onclick="setSelected('hand-0-P3')"></div>
-          <div id="hand-1-P3" class="grid-item" onclick="setSelected('hand-1-P3')"></div>
-          <div id="hand-2-P3" class="grid-item" onclick="setSelected('hand-2-P3')"></div>
-          <div id="hand-3-P3" class="grid-item" onclick="setSelected('hand-3-P3')"></div>
-          <div id="hand-4-P3" class="grid-item" onclick="setSelected('hand-4-P3')"></div>
-          <div id="hand-5-P3" class="grid-item" onclick="setSelected('hand-5-P3')"></div>
-          <div id="hand-6-P3" class="grid-item" onclick="setSelected('hand-6-P3')"></div>
-       </div>
-      <br>
-      <input type="button" class="action-button" disabled value="Play" onclick="
-        var player = document.getElementById('button-P3').textContent
-        var letters = getSelected(player)
-        sendPlay(letters, player)
-        clearSelected(player)">
-      <input type="button" class="action-button" disabled value="Put back" onclick="
-        var player = document.getElementById('button-P3').textContent
-        var letters = getSelected(player)
-        sendPutBack(letters, player)
-        clearSelected(player)">
-      <input type="button" class="action-button" disabled value="Draw" onclick="
-        var player = document.getElementById('button-P3').textContent
-        sendDraw(player)
-      ">
-      <input type="button" class="name-change-button action-button" disabled value="Change name" onclick="
-        var player = document.getElementById('button-P3').textContent
-        const newName = prompt('Enter a new name', player)
-        changeName(player, newName) // logic in the main file
-        ">
-    </div>
-
-
-    <button id="button-P4" class="collapsible player-button P4"></button>
-    <div class="content P4">
-      <div id="-hand" class="hand grid-container">
-          <div id="hand-0-P4" class="grid-item" onclick="setSelected('hand-0-P4')"></div>
-          <div id="hand-1-P4" class="grid-item" onclick="setSelected('hand-1-P4')"></div>
-          <div id="hand-2-P4" class="grid-item" onclick="setSelected('hand-2-P4')"></div>
-          <div id="hand-3-P4" class="grid-item" onclick="setSelected('hand-3-P4')"></div>
-          <div id="hand-4-P4" class="grid-item" onclick="setSelected('hand-4-P4')"></div>
-          <div id="hand-5-P4" class="grid-item" onclick="setSelected('hand-5-P4')"></div>
-          <div id="hand-6-P4" class="grid-item" onclick="setSelected('hand-6-P4')"></div>
-       </div>
-      <br>
-      <input type="button" class="action-button" disabled value="Play" onclick="
-        var player = document.getElementById('button-P4').textContent
-        var letters = getSelected(player)
-        sendPlay(letters, player)
-        clearSelected(player)">
-      <input type="button" class="action-button" disabled value="Put back" onclick="
-        var player = document.getElementById('button-P4').textContent
-        var letters = getSelected(player)
-        sendPutBack(letters, player)
-        clearSelected(player)">
-      <input type="button" class="action-button" disabled value="Draw" onclick="
-        var player = document.getElementById('button-P4').textContent
-        sendDraw(player)
-      ">
-      <input type="button" class="name-change-button action-button" disabled value="Change name" onclick="
-        var player = document.getElementById('button-P4').textContent
-        const newName = prompt('Enter a new name', player)
-        changeName(player, newName) // logic in the main file
-        ">
-    </div>
-
 
   </body>
 
