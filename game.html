@@ -220,22 +220,6 @@
         }
       })
     }
-    var collConf = document.getElementsByClassName("collapsible-confirm")
-    for (i = 0; i < collConf.length; i++) {
-      collConf[i].addEventListener("click", function() {
-        var content = this.nextElementSibling
-        // show content if confirmed, or hide
-        if (content.style.display === "block") {
-          content.style.display = "none" // hide all the time
-          this.classList.toggle("active")
-        } else {
-          if (confirm("Do you really want to view the bag? It could spoil your game!")) {
-            content.style.display = "block" // only show if confirmed
-            this.classList.toggle("active")
-          }
-        }
-      })
-    }
 
   </script>
 
