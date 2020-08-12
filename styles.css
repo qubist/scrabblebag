@@ -9,7 +9,6 @@ body {
   cursor: pointer;
   padding: 18px;
   width: 100%;
-  max-width: 425px;
   border: none;
   text-align: left;
   outline: none;
@@ -27,7 +26,6 @@ body {
 .content {
   padding: 20px 18px;
   display: none;
-  max-width: 390px;
   overflow: hidden;
   overflow-x: scroll;
   background-color: #f1f1f1;
@@ -120,7 +118,7 @@ body {
 .grid-container-page {
   display: grid;
   grid-gap: 1%;
-  grid-template-columns: repeat(3, 30%);
+  grid-template-columns: 425px 25% 425px;
   grid-template-rows: 250px 250px;
   justify-content: center;
 }
@@ -132,7 +130,7 @@ body {
 .grid-item-page-player {
 }
 
-@media only screen and (max-width: 1436px) {
+@media only screen and (max-width: 1180px) {
   .grid-container-page {
     display: flex;
     flex-direction: column;
