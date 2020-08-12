@@ -186,7 +186,7 @@ function renderBag(game) {
     tileOverlayE.style.display = 'block'
     tileOverlayE.style.top = `${280 - 2.9*tilesLeft}px`
   }
-  tileOverlayE.src = `tiles${tilesLeft % 5}.png`
+  tileOverlayE.src = `tiles${(tilesLeft % 5) + 1}.png` // cycle through tile images 1-5
 
 
 }
