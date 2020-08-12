@@ -3,7 +3,7 @@ body {
   font-size: 15px;
 }
 
-.collapsible, .collapsible-confirm {
+.collapsible {
   background-color: #b63116;
   color: white;
   cursor: pointer;
@@ -15,14 +15,19 @@ body {
   font-size: 15px;
 }
 
-.active, .collapsible:hover, .collapsible-confirm:hover {
+.active {
   background-color: #555;
+}
+
+.collapsible:hover, .collapsible-confirm:hover {
+  background-color: #666;
 }
 
 .content {
   padding: 20px 18px;
   display: none;
   overflow: hidden;
+  overflow-x: scroll;
   background-color: #f1f1f1;
 }
 
@@ -39,7 +44,7 @@ body {
   content: "-";
 }
 
-.grid-container {
+.grid-container-hand {
   display: grid;
   width: 370px;
   grid-gap: 15px;
@@ -49,7 +54,7 @@ body {
   padding: 10px;
 }
 
-.grid-item {
+.grid-item-hand {
   background-color: rgba(254, 249, 231, 0.9);
   border: 1px solid rgba(0, 0, 0, 0.8);
   font-size: 30px;
@@ -80,8 +85,59 @@ body {
 .player-button {
   font-weight: bold;
   white-space: pre-wrap;
+  width: 426px;
 }
 
-.tile-color {
-  background-color: #CAA274
+.bag-img-container {
+  position: relative;
+  overflow-y: hidden;
+  display: flex;
+  justify-content: center;
+}
+
+.bag-img-base {
+  display: block;
+  max-width:100%;
+  max-height:100%;
+
+}
+
+.bag-img-overlay {
+  position: absolute;
+  top: 0;
+  max-width:100%;
+  max-height:100%;
+}
+
+.tiles-status {
+  text-align: center;
+  padding-top: 15px;
+}
+
+.grid-container-page {
+  display: grid;
+  grid-gap: 1%;
+  grid-template-columns: 425px 25% 425px;
+  grid-template-rows: 250px 250px;
+  justify-content: center;
+}
+
+.grid-item-page-bag {
+  grid-area: 1 / 2 / 3 / 2;
+}
+
+.grid-item-page-player {
+}
+
+@media only screen and (max-width: 1180px) {
+  .grid-container-page {
+    display: flex;
+    flex-direction: column;
+ }
+  .grid-item-page-player {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  .grid-item-page-bag { grid-row: 5; grid-column: 1; padding-top: 20px; }
 }

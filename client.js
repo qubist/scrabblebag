@@ -161,8 +161,12 @@ function changeName(player, newName) {
 
 function renderBag(game) {
   // bag element of the webpage
-  bagE = document.getElementById('bag')
+  bagModalE = document.getElementById('bag')
+  bagCounterE = document.getElementById('bag-counter')
+  tileOverlayE = document.getElementById('tiles-overlay')
+  tilesLeft = game.bag.length
 
+  // Print all the tiles in the bag modal
   var result = ''
   game.bag.forEach((tile, i) => {
     const toAdd = ((tile === ' ') ? 'BLANK' : tile) // ternary operator: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator
@@ -170,10 +174,21 @@ function renderBag(game) {
   })
   result = result.substring(0, result.length - 2) // remove final ', '
 
-  bagE.textContent = result
+  bagModalE.textContent = result
 
-  // print the number of tiles left
-  document.getElementById('bag-counter').textContent = `Tiles left: ${game.bag.length}`
+  // Print the number of tiles left
+  bagCounterE.textContent = `Tiles left: ${tilesLeft}`
+
+  // Move the tiles overlay to the right place and randomize it
+  if (tilesLeft === 0) {
+    tileOverlayE.style.display = 'none'
+  } else {
+    tileOverlayE.style.display = 'block'
+    tileOverlayE.style.top = `${280 - 2.8*tilesLeft}px`
+  }
+  tileOverlayE.src = `tiles${(tilesLeft % 5) + 1}.png` // cycle through tile images 1-5
+
+
 }
 
 function renderHands(game) {
