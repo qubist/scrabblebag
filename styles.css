@@ -104,7 +104,6 @@ body {
 
 .bag-img-overlay {
   position: absolute;
-  display: flex;
   top: 0;
   max-width:100%;
   max-height:100%;
