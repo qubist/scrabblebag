@@ -179,8 +179,13 @@ function renderBag(game) {
   // Print the number of tiles left
   bagCounterE.textContent = `Tiles left: ${tilesLeft}`
 
-  // Move the tiles overlay to the right place
-  tileOverlayE.style.top = `${290 - 2.9*tilesLeft}px`
+  // Move the tiles overlay to the right place and randomize it
+  if (tilesLeft === 0) {
+    tileOverlayE.style.display = 'none'
+  } else {
+    tileOverlayE.style.display = 'block'
+    tileOverlayE.style.top = `${280 - 2.9*tilesLeft}px`
+  }
 }
 
 function renderHands(game) {
