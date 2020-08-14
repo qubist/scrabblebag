@@ -93,6 +93,7 @@ body {
   overflow-y: hidden;
   display: flex;
   justify-content: center;
+  align-items: flex-start;
 }
 
 .bag-img-base {
