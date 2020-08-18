@@ -46,12 +46,16 @@ body {
 
 .grid-container-hand {
   display: grid;
-  width: 370px;
+  max-width: 372px;
   grid-gap: 15px;
-  grid-template-columns: repeat(7, 40px);
+  grid-template-columns: repeat(7, 40px) 1px; /* extra little bumper for scrolling to work ok */
   grid-template-rows: 40px;
   background-color: #cc3719;
-  padding: 10px;
+  /* padding top and bottom, borders on sides. For scrolling to work with a bumper */
+  padding: 10px 0;
+  border-right: 10px solid #cc3719;
+  border-left: 10px solid #cc3719;
+  overflow-x: scroll;
 }
 
 .grid-item-hand {
@@ -85,7 +89,7 @@ body {
 .player-button {
   font-weight: bold;
   white-space: pre-wrap;
-  width: 426px;
+  width: 100%;
 }
 
 .bag-img-container {
@@ -118,7 +122,7 @@ body {
 .grid-container-page {
   display: grid;
   grid-gap: 1%;
-  grid-template-columns: 425px 25% 425px;
+  grid-template-columns: 428px 25% 428px;
   grid-template-rows: 250px 250px;
   justify-content: center;
 }
@@ -141,4 +145,7 @@ body {
     flex-direction: column;
   }
   .grid-item-page-bag { grid-row: 5; grid-column: 1; padding-top: 20px; }
+  .content {
+    width: calc(100% - (18px*2)); /* whole width - total horizontal padding */
+  }
 }
