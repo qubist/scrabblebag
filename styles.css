@@ -1,6 +1,59 @@
 body {
   font-family: Arial, sans-serif;
   font-size: 15px;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.banner {
+  width: 100%;
+  height: auto;
+  background-color: hsl(10.1, 78.4%, 28%);
+  margin-bottom: 50px;
+}
+
+.banner h1 {
+  margin: 0;
+  padding: 20px;
+  color: white;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  width: clamp(40ch, 60%, 90ch);
+  margin: auto;
+}
+
+.new-text-box {
+
+}
+
+.new-game-bag {
+  width: 38ch;
+}
+
+.new-game-box-container {
+  display: flex;
+  justify-content: center;
+}
+
+.new-game-box {
+  position: relative;
+}
+
+.bag-controls {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  left: 49%;
+  top: 58%;
+  display: flex;
+}
+
+.credit-box {
+  margin-top: 300px;
 }
 
 .collapsible {
@@ -122,10 +175,11 @@ body {
 
 .grid-container-page {
   display: grid;
-  grid-gap: 1%;
+  grid-gap: 5px;
   grid-template-columns: 434px 25% 434px;
   grid-template-rows: 250px 250px;
   justify-content: center;
+  margin: 0px 8px;
 }
 
 .grid-item-page-bag {

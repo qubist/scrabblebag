@@ -12,38 +12,52 @@
   </head>
 
   <body>
-    <h1>Scrabblebag</h1>
+    <div class="banner">
+      <h1>Scrabblebag</h1>
+    </div>
 
     <h3>Play remote scrabble with friends or foes, but using a physical board!</h3>
 
-    <div class="description">
-      <p>Playing physical Scrabble remotely is hard because Scrabble is not a game of <a href="https://en.wikipedia.org/wiki/Perfect_information">perfect information</a>. This means each player in a game of Scrabble knows different things about the state of the game.</p>
+    <div class="container">
+      <div class="text-box">
+        <p>Playing physical Scrabble remotely is hard because Scrabble is not a game of <a href="https://en.wikipedia.org/wiki/Perfect_information">perfect information</a>. This means each player in a game of Scrabble knows different things about the state of the game.</p>
 
-      <p>Chess has perfect information so it's easy to synchronize your board with a far-off friend's. People have been doing so using the postal service <a href="https://en.wikipedia.org/wiki/Correspondence_chess#Postal_(traditional_mail)_correspondence_chess">since the 1800s</a> and calling it "correspondence chess".</p>
+        <p>Chess has perfect information so it's easy to synchronize your board with a far-off friend's. People have been doing so using the postal service <a href="https://en.wikipedia.org/wiki/Correspondence_chess#Postal_(traditional_mail)_correspondence_chess">since the 1800s</a> and calling it "correspondence chess".</p>
 
-      <p>With Scrabble, players don't know the tiles in their opponent's hands, and none of the players knows the contents of the tile bag. To play Scrabble on two physical boards, we need a tool to keep track of a shared tile bag that both players can draw from. Scrabblebag.org does exactly this!</p>
-
-      <div class="new-game-box">
-        <input type="button" value="Request New Game" onclick="
-            var numPlayers = parseInt(getElementById('players').value)
-            sendNewGameRequest(numPlayers)
-          ">
-        <select name="players" id="players">
-          <option value="2" selected>2 players</option>
-          <option value="3">3 players</option>
-          <option value="4">4 players</option>
-        </select>
+        <p>With Scrabble, players don't know the tiles in their opponent's hands, and none of the players knows the contents of the tile bag. To play Scrabble on two physical boards, we need a tool to keep track of a shared tile bag that both players can draw from. Scrabblebag.org does exactly this!</p>
       </div>
 
-      <p>Start a new game with 2–4 players. Copy your game's link and share it with your friends. Scrabblebag shows everyone playing the same thing: A page with each player's name and the shared tile bag in the middle. Click on a player's name to show their hand.</p>
+      <div class="new-game-box-container">
+        <div class="new-game-box">
+          <img class="new-game-bag" src="bag.png">
 
-      <p>Just like during an in-person Scrabble game, with Scrabblebag it's the responsibility of the players not to peek at each other's hands or look into the bag. This means that you don't need to log in or create an account to use Scrabblebag.</p>
+          <div class="bag-controls">
+            <input type="button" value="Request New Game" onclick="
+                var numPlayers = parseInt(getElementById('players').value)
+                sendNewGameRequest(numPlayers)
+              ">
+            <select name="players" id="players">
+              <option value="2" selected>2 players</option>
+              <option value="3">3 players</option>
+              <option value="4">4 players</option>
+            </select>
+          </div>
+        </div>
+      </div>
 
-      <p>Draw tiles, then select tiles from your hand and play them or put them back in the bag. You can change your name to remember whose hand belongs to who. Each game has a 9-letter game ID shown in the page's URL. If you save this you can leave the page and return to the same game later. Games with no activity in the last 30 days are deleted.</p>
+      <div class="text-box">
+        <p>Start a new game with 2–4 players. Copy your game's link and share it with your friends. Scrabblebag shows everyone playing the same thing: A page with each player's name and the shared tile bag in the middle. Click on a player's name to show their hand.</p>
 
-      <p>We found that using Scrabble's physical tiles on a rack helped us experiment with words and get that tactile feel. After playing down a word, I select and play those tiles on the site as well. When an opponent plays a word, it's my job to replicate their play on my board by picking the right tiles from the bag. When drawing, I should click draw using the site and then pick out corresponding tiles to add to my rack.</p>
+        <p>Just like during an in-person Scrabble game, with Scrabblebag it's the responsibility of the players not to peek at each other's hands or look into the bag. This means that you don't need to log in or create an account to use Scrabblebag.</p>
 
-      <p>Scrabblebag.org (scrabblepouch.com) was built by <a href="https://will.harris-braun.com">Will Harris-Braun</a> with help from Poppy Northing and <a href="https://eric.harris-braun.com">Eric Harris-Braun</a>. Problems or questions? <a href="https://will.harris-braun.com">Get in touch.</a></p>
+        <p>Draw tiles, then select tiles from your hand and play them or put them back in the bag. You can change your name to remember whose hand belongs to who. Each game has a 9-letter game ID shown in the page's URL. If you save this you can leave the page and return to the same game later. Games with no activity in the last 30 days are deleted.</p>
+
+        <p>We found that using Scrabble's physical tiles on a rack helped us experiment with words and get that tactile feel. After playing down a word, I select and play those tiles on the site as well. When an opponent plays a word, it's my job to replicate their play on my board by picking the right tiles from the bag. When drawing, I should click draw using the site and then pick out corresponding tiles to add to my rack.</p>
+      </div>
+
+      <div class="credit-box">
+        <p>Scrabblebag.org (scrabblepouch.com) was built by <a href="https://will.harris-braun.com">Will Harris-Braun</a> with help from Poppy Northing and <a href="https://eric.harris-braun.com">Eric Harris-Braun</a>. Problems or questions? <a href="https://will.harris-braun.com">Get in touch.</a></p>
+      </div>
     </div>
 
   </body>
