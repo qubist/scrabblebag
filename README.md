@@ -10,3 +10,11 @@ Use the site to keep track of your hand and draws while keeping the bag synced a
 [node.js](https://nodejs.org/en/)
   * [ws](https://www.npmjs.com/package/ws)
   * [node-persist](https://www.npmjs.com/package/node-persist)
+
+## Usage
+
+To start the server:
+
+```
+sudo node server.js
+```
