@@ -6,6 +6,7 @@
     <script type="text/javascript" src="client.js">
     </script>
     <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -77,6 +78,7 @@
             const newName = prompt('Enter a new name', player)
             changeName(player, newName) // logic in the main file
             ">
+          <button class="shuffle-button" onclick="shuffleHand(game, document.getElementById('button-P1').textContent)"><i class="fas fa-random"></i></button>
         </div>
       </div>
 
@@ -112,6 +114,7 @@
             const newName = prompt('Enter a new name', player)
             changeName(player, newName) // logic in the main file
             ">
+          <button class="shuffle-button" onclick="shuffleHand(game, document.getElementById('button-P2').textContent)"><i class="fas fa-random"></i></button>
         </div>
       </div>
 
@@ -147,6 +150,7 @@
             const newName = prompt('Enter a new name', player)
             changeName(player, newName) // logic in the main file
             ">
+          <button class="shuffle-button" onclick="shuffleHand(game, document.getElementById('button-P3').textContent)"><i class="fas fa-random"></i></button>
         </div>
       </div>
 
@@ -182,6 +186,7 @@
             const newName = prompt('Enter a new name', player)
             changeName(player, newName) // logic in the main file
             ">
+          <button class="shuffle-button" onclick="shuffleHand(game, document.getElementById('button-P4').textContent)"><i class="fas fa-random"></i></button>
         </div>
       </div>
 

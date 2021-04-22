@@ -8,6 +8,11 @@ socket.onmessage = function (event) {
   // do something with the message depending on its type
   switch(msg.type) {
     case 'update':
+      // updates that rely on a change in game state
+      if (!(typeof game === 'undefined' || game === null)) {
+        orderHand(game, msg.game)
+      }
+
       game = msg.game
       // update page with new game info
       renderBag(game)
@@ -244,7 +249,7 @@ function renderButtons(game) {
         console.log(`ERR: Some other button called ${actionButton.value} is here for some reason!`)
     }
   }
-  // then render play buttos
+  // then render play buttons
   renderPlayButtons()
 
 }
@@ -301,6 +306,53 @@ function getHand(playerTable, player) {
     }
   }
   console.log('ERR: requested player wasn\'t in player table')
+}
+
+// Order hands in updated game to match the order before the update
+function orderHand(oldGame, newGame) {
+  for (i = 0; i < oldGame.players.length; i++) {
+    var oldHand = oldGame.players[i][1]
+    var newHand = newGame.players[i][1]
+
+    var orderedHand = []
+
+    // If a letter of the new hand was also in the pre-update hand, then put
+    // it in the same location. Otherwise, add it to the end.
+    for (const letter of oldHand) {
+      idx = newHand.indexOf(letter)
+      if (idx > -1) {
+        orderedHand.push(letter)
+        newHand.splice(idx, 1)  // remove a letter if we've added it to updated hand
+      }
+    }
+
+    // Anything left is a new letter; add to end
+    orderedHand = orderedHand.concat(newHand)
+
+    newGame.players[i][1] = orderedHand
+  }
+}
+
+// Randomly shuffle a player's hand
+function shuffleHand(game, player) {
+  playerTable = game.players
+  shuffle(getHand(playerTable, player))
+  renderHand(game, player)
+}
+
+/**
+ * Shuffles array in place.
+ * @param {Array} a items An array containing the items.
+ */
+function shuffle(a) {
+    var j, x, i;
+    for (i = a.length - 1; i > 0; i--) {
+        j = Math.floor(Math.random() * (i + 1));
+        x = a[i];
+        a[i] = a[j];
+        a[j] = x;
+    }
+    return a;
 }
 
 // player is player name as a string: needs to be converted to element-id format.

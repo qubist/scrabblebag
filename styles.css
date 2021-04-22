@@ -146,6 +146,10 @@ body {
   width: 100%;
 }
 
+.shuffle-button {
+  margin-left: 54px;
+}
+
 .bag-img-container {
   position: relative;
   overflow-y: hidden;
