@@ -27,8 +27,8 @@ body {
   margin: auto;
 }
 
-.new-text-box {
-
+.text-box h3 {
+  
 }
 
 .new-game-bag {
@@ -136,10 +136,6 @@ body {
   margin-left: 15px;
 }
 
-.action-button {
-
-}
-
 .player-button {
   font-weight: bold;
   white-space: pre-wrap;
@@ -184,9 +180,6 @@ body {
 
 .grid-item-page-bag {
   grid-area: 1 / 2 / 3 / 2;
-}
-
-.grid-item-page-player {
 }
 
 @media only screen and (max-width: 1180px) {
