@@ -75,6 +75,11 @@ body {
   margin-top: 300px;
 }
 
+.credit-box .disclaimer {
+  color: gray;
+  font-size:60%;
+}
+
 .collapsible {
   background-color: #b63116;
   color: white;
